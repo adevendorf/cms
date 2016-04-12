@@ -1,0 +1,113 @@
+.sidepanel-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(225, 225, 225, .9);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+
+.sidepanel-wrapper {
+  display: table-cell;
+  vertical-align: top;
+  position: absolute;
+  top: 0;
+  bottom:0;
+}
+
+.sidepanel-container {
+  margin: 0;
+  padding: 10px 15px;
+  background-color: #fff;
+  border-radius: 1px;
+  box-shadow: 0 0px 100px 20px rgba(100, 100, 100, .3);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  bottom:0;
+
+  &.sidepanel-left {
+    left: 0;
+
+    .sidepanel-header {
+      padding-left: 15px;
+    }
+  }
+
+  &.sidepanel-right {
+    right: 0;
+  }
+
+  &.sidepanel-large {
+    width: 640px;
+  }
+  &.sidepanel-small {
+    width: 320px;
+  }
+}
+
+
+.sidepanel-header {
+  margin-top: 0;
+  position: fixed;
+  top: 0;
+  height: 40px;
+  left: 0;
+  width: 100%;
+
+  & > div {
+    line-height: 42px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.sidepanel-body {
+  padding: 20px 15px 50px;
+  margin: 20px 0;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.sidepanel-default-button {
+  float: right;
+}
+.sidepanel-close-button {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: none;
+  background: #f5f5f5;;
+  color: #444;
+  font-size: 16px;
+
+  &.left {
+    float: left;
+    margin-right: 10px;
+  }
+  &.right {
+    float: right;
+    margin-left: 10px;
+  }
+
+  &:hover, &:active {
+    outline: none;
+    opacity: .5;
+  }
+}
+
+.sidepanel-enter, .sidepanel-leave {
+  opacity: 0;
+}
+
+.sidepanel-enter .sidepanel-container,
+.sidepanel-leave .sidepanel-container {
+  transform: translateX(-100%);
+}

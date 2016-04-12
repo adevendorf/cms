@@ -1,0 +1,22 @@
+#app select.form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  vertical-align: middle;
+  outline: 0;
+  cursor: pointer;
+  border: solid 1px #ccc;
+  background-image: url(/images/select-arrow.png);
+  background-repeat: no-repeat;
+  background-position: right center;
+  height: 31px;
+  padding: 5px;
+  min-width: 120px;
+}
+
+label {
+  font-weight: bold;
+}
+.form-control {
+  border-radius: 0;
+}

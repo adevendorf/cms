@@ -1,0 +1,50 @@
+.calendar-row {
+  width: 100%;
+  clear: left;
+}
+
+.dow {
+  display: block;
+  float: left;
+  height: 20px;
+  width: 14.2857143%;
+  text-align: center;
+  position: relative;
+
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    &:hover {
+      text-decoration: none;
+      background: #ccc;
+    }
+    &.active {
+      background: #000;
+      color: #fff;
+    }
+  }
+}
+
+.calendar {
+  min-width: 200px;
+}
+
+.timepicker {
+  min-width: 200px;
+  height: 100px;
+
+  .time-element {
+    display: inline-block;
+    height: 100px;
+    width: 50px;
+    text-align: center;
+
+    &.narrow  {
+      width: 20px;
+    }
+  }
+}

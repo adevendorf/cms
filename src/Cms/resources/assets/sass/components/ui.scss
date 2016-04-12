@@ -1,0 +1,13 @@
+.btn, .card, .dropdown-menu {
+  border-radius: 0;
+}
+
+.pagination {
+  .page-link {
+    transition: all 300ms ease-in-out;
+    
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.uploading {
+  i {
+    width: 25px;
+    text-align: center;
+  }
+  .done {
+    color: #ccc;
+  }
+  .inprogress {
+    color: #444;
+  }
+  .not-done {
+    color: #ccc;
+  }
+  .error {
+    color: red;
+  }
+}

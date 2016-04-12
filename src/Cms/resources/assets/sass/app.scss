@@ -1,0 +1,108 @@
+@import "twbs4_cms/bootstrap.scss";
+@import "bootstrap-select/bootstrap-select.scss";
+@import "components/utility.scss";
+@import "components/datepicker.scss";
+@import "components/images.scss";
+@import "components/imagecrop.scss";
+@import "components/sorting.scss";
+@import "components/upload.scss";
+@import "components/forms.scss";
+@import "components/modal.scss";
+@import "components/sidepanel.scss";
+@import "components/ui.scss";
+
+body {
+  background: #f0f0f0;
+
+  a {
+    cursor: pointer;
+  }
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+
+  .content {
+    padding: 10px;
+    background: #fff;
+  }
+
+  th, td {
+    vertical-align: middle;
+  }
+
+  .search {
+    padding-right: 10px;
+  }
+
+
+  .image-preview {
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    background: #f5f5f5;
+    border: solid 1px #ccc;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    background-size: cover;
+    background-position: center center;
+    text-decoration: none;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+
+  .text-content-sample {
+     max-height: 200px;
+     overflow: hidden;
+     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15) inset;
+     border: solid 1px #ccc;
+  }
+  .ui-sortable .panel .btn-group.pull-right {
+    top: -2px;
+  }
+
+  .note-editor {
+    .btn-sm {
+      height: 40px;
+      min-width: 40px;
+      background: #fff;
+      color: #333;
+      border: solid 1px #ccc;
+    }
+  }
+
+
+
+
+.expanded-true {
+  max-height: auto;
+}
+.expanded-false {
+  max-height: 0px;
+  overflow: hidden;
+}
+
+
+.dropdown-menu {
+  li {
+    a {
+      i.fa {
+        width: 25px;
+      }
+    }
+  }
+}
+
+.card-header {
+  user-select: none;
+}

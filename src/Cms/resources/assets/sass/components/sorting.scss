@@ -1,0 +1,57 @@
+.will-sort {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sortable {
+  list-style: none;
+  margin: 0 0 2px 0;
+  padding: 0;
+}
+#sortable li {
+  margin-bottom: 0;
+
+  .panel {
+    margin: 0;
+  }
+}
+.placeholder {
+  background: #efefef;
+  border: dashed 1px #aaa;
+  margin: 2px 0;
+}
+#sortable * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn-handle {
+  position: relative;
+}
+.handle {
+  display:block;
+  color: #333;
+  float: left;
+  padding: 14px;
+  text-align: center;
+  margin-right: 5px;
+  cursor: pointer;
+  position: relative;
+  z-index: 5;
+}
+
+.handle-holder {
+  position: absolute;
+  left: -5%;
+  top: -5%;
+  width: 110%;
+  height: 110%;
+  z-index: 10;
+  cursor: move;
+  cursor: grab;
+}
