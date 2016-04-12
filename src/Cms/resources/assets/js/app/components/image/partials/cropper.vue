@@ -2,32 +2,23 @@
   <div>
       <div class="row">
 
-        <div v-if="cropping" class="col-sm-12"> 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              Original
-            </div>
-            <div class="panel-body">
-              <div class="image-bg">
-                  <img v-bind:id="'image-' + image.image.id" v-bind:src=" '/img/asset/utility/' + image.image.asset.path + image.image.asset.cms_filename" />
-              </div>
-            </div>
+        <div v-if="cropping" class="col-sm-12 text-center"> 
+
+          <button class="btn btn-success" @click="endCrop">Save</button>
+
+
+          <div class="image-bg">
+              <img v-bind:id="'image-' + image.image.id" v-bind:src=" '/img/asset/utility/' + image.image.asset.path + image.image.asset.cms_filename" />
           </div>
         </div>
 
         <div v-if="!cropping" class="col-sm-12">
-            <div class="panel panel-primary">
-            <div class="panel-heading">
-              Preview
-            </div>
-            <div class="panel-body">
 
-              <button v-if="!cropping" class="btn btn-info" @click="openCropTool">Crop</button>
 
-              <div class="form-group" v-if="crop.name == 'default'">
-                <label>Max Pixel Dimension</label>
-                <input type="text" class="form-control" name="max_dimension" v-model="crop.max_dimension" />
-              </div>
+              <button v-if="!cropping" class="btn btn-primary" @click="openCropTool">Crop</button>
+              <button v-if="!cropping" class="btn btn-primary" @click="rotate">Rotate</button>
+
+
 
               <div class="image-bg final">
 
@@ -35,8 +26,7 @@
                   <img v-bind:src=" '/admin/img-preview-lg/' + image.image.asset_id + '?crop=' + crop.name + '&crop_x=' + cropSettings.crop_x + '&crop_y=' + cropSettings.crop_y + '&crop_width=' + cropSettings.crop_width + '&crop_height=' + cropSettings.crop_height+  '&buster=' + cache" />
                 </div>
               </div>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -44,7 +34,7 @@
         <div class="col-sm-4 form-group">
             <label>&nbsp;</label>
             <div>
-              <button v-if="cropping" class="btn btn-success" @click="endCrop">Save</button>
+             
             </div>
         </div>
         <div v-if="cropping && crop.name == 'default'" class="col-sm-4 form-group">
@@ -65,6 +55,7 @@
       </div>
 
 
+
 </div>
 </template>
 
@@ -74,7 +65,7 @@
  */
 export default {
 
-  props: ['image',  'crop'],
+  props: ['image',  'crop', 'show'],
 
   data() {
     return {
@@ -90,6 +81,10 @@ export default {
   },
 
   methods: {
+
+    rotate() {
+
+    },
 
     manager(which) {
       this.$dispatch('image::manager::view', which);
@@ -239,7 +234,12 @@ export default {
 
 
     endCrop(e) {
-      e.preventDefault();
+      if (e) e.preventDefault();
+
+      if (!window._CROP) {
+        this.show = false;
+        return;
+      }
 
       var that = this;
 
@@ -279,7 +279,16 @@ export default {
       this.cropping = false;
       this.cache = Math.random().toString(36).substring(7);
 
+      this.show = false;
+
     },
+  },
+
+  events: {
+    'cropper::end'() {
+      this.endCrop();
+      return false;
+    }
   },
 
   ready() {

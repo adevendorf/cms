@@ -3,16 +3,20 @@
 
     <div class="col-sm-12">
 
-      <div class="row" v-if="visible=='cropper'">
+<!--       <div class="row" v-if="visible=='cropper'">
         <div class="col-sm-12">
           <button @click="showMain" class="btn btn-default"><i class="fa fa-caret-left"></i> Show Crop Sizes</button>
         </div>
         <hr />
-      </div>
+      </div> -->
 
 
       <div class="row" v-if="parent.image && !parent.image.asset_id && visible=='main'">
-          <no-image v-on:select="manager('lister')" v-on:upload="manager('uploader')"></no-image>
+        <no-image 
+          v-on:select="manager('lister')" 
+          v-on:upload="manager('uploader')"
+          >
+        </no-image>
       </div>
 
 
@@ -31,7 +35,7 @@
           </div>
           
           <div class="details">
-            <button class="btn btn-primary" @click="showCropper(crop)">Crop</button>
+            <button class="btn btn-primary" @click="showCropper(crop)">Adjust</button>
             <button v-if="crop.name !== 'default'" class="btn btn-danger" @click="removeItem(crop)">Remove</button>   
           </div>
 
@@ -63,39 +67,36 @@
       </div>
 
 
-      
-    </div>
-
-
-    <div v-if="cropperVisible">
+      <div v-if="cropperVisible">
       <modal
         size="large"
-        footer="true"
+        footer="false"
         header="true"
         :show.sync="cropperVisible"
-        v-on:save=""
         >
         <div slot="header">
-          Image Crop
+          Image Adjustments
         </div>
         <div slot="body">              
             <cropper 
-              :image="image" 
+              :image="parent" 
               :crop="selectedCrop"
               >
             </cropper>
         </div>
-        <div slot="footer">
+<!--         <div slot="footer">
+          <button class="btn btn-success" @click="endCrop">Save</button>
           <button 
             class="btn btn-default" 
             @click="cropperVisible = false"
             >
             Cancel
           </button>
-        </div>
+        </div> -->
       </modal>
-    </div>
+      </div>
 
+    </div>
   </div>
 </template>
 
@@ -132,14 +133,19 @@ export default {
 
   methods: {
 
+    // endCrop() {
+    //   this.$broadcast('cropper::end')
+    // },
+
     manager(which) {
       this.$dispatch('image::manager::view', which);
       this.cachebust = Math.random().toString(36).substring(7);
     },
 
     showCropper(item) {
+      window._CROP = null;
       this.selectedCrop = item;      
-      this.visible = 'cropper';
+      // this.visible = 'cropper';
       this.cropperVisible = true;
     },
     showMain() {
