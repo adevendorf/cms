@@ -1,16 +1,9 @@
 <?php
-
 namespace Cms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use HipsterJazzbo\Landlord\BelongsToTenant;
+use Cms\Models\Eloquent\Product as OrmModel;
 
-class Product extends Model  {
-    use BelongsToTenant;
-    use SoftDeletes;
+class Product extends OrmModel
+{
 
-    protected $table = 'products';
-    protected $fillable = ['name', 'sku', 'price', 'discount', 'inventory', 'is_premium', 'summary', 'image_id', 'status', 'slug'];
-    protected $hidden = ['updated_at', 'created_at'];
 }

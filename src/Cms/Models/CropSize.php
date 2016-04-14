@@ -1,16 +1,9 @@
 <?php
-
 namespace Cms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use HipsterJazzbo\Landlord\BelongsToTenant;
+use Cms\Models\Eloquent\CropSize as OrmModel;
 
-class CropSize extends Model  {
-    use BelongsToTenant;
-    use SoftDeletes;
+class CropSize extends OrmModel
+{
 
-    protected $table = 'cropsizes';
-    protected $fillable = ['name', 'aspect_ratio', 'max_dimension'];
-    protected $hidden = ['updated_at', 'created_at'];
 }

@@ -95,5 +95,5 @@ Route::group(['middleware' => ['tenant', 'web']], function () {
 
     Route::get('/sample', '\Cms\Http\Controllers\SampleController@getSamplePage');
 
-    Route::get('/{all}', '\Cms\Http\Controllers\Cms\RenderController@getPage')->where('all', '.*');
+    Route::get('/{all}', '\Cms\Http\Controllers\Cms\FrontController@getPage')->where('all', '.*');
 });

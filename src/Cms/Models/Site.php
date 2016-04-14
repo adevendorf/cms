@@ -1,18 +1,9 @@
 <?php
 namespace Cms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Cms\Models\Eloquent\Site as OrmModel;
 
-class Site extends Model  {
-
-    use SoftDeletes;
-
-    protected $table = "sites";
-
-//    public function users()
-//    {
-//        return $this->belongsToMany('Cms\Models\User')->withTimestamps()->withPivot('user_level');
-//    }
+class Site extends OrmModel
+{
 
 }

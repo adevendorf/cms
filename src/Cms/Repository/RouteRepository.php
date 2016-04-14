@@ -20,6 +20,13 @@ class RouteRepository extends Repository
         return $item;
     }
 
+    public function findWithPageBySlug($slug)
+    {
+        return Route::where('url', $slug)
+            ->with('page')
+            ->firstOrFail();
+    }
+
     public function findBy($column, $value)
     {
         $item = Route::where($column, $value)

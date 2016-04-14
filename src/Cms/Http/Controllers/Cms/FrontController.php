@@ -1,5 +1,4 @@
 <?php
-
 namespace Cms\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
@@ -7,13 +6,8 @@ use Cms\Repository\PageRepository;
 use Cms\Render\PageRender;
 use Cms\Repository\RouteRepository;
 use Illuminate\Http\Request;
-use Cms\Models\Page;
-use Cache;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Guzzle\Http\Exception\BadResponseException;
 
-class RenderController extends Controller
+class FrontController extends Controller
 {
     protected $repo;
     protected $render;
@@ -28,24 +22,15 @@ class RenderController extends Controller
     public function getPage($slug) {
         $slug = strtolower($slug);
 
-
         if ($slug == '/') {
             $slug = 'homepage';
-        } else {
-            $slug = explode('/', $slug);
-            $section = head($slug);
         }
 
-        $route = $this->routeRepo->findBy('url', $slug);
-        if (!$route) abort(404, 'Page Not Found');
+        $route = $this->routeRepo->findWithPageBySlug($slug);
 
-        $page = $this->repo->findById($route->page_id);
+        if (!$route || !$route->page || $route->page->status != 'published') abort(404, 'Page Not Found');
 
-
-
-        if (!$page || $page->status != 'published') abort(404, 'Page Not Found');
-
-        return $this->renderPage($page);
+        return $this->renderPage($route->page);
     }
 
     public function getTemplate($page)

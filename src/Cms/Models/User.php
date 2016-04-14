@@ -1,33 +1,10 @@
 <?php
-
 namespace Cms\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Cms\Models\Eloquent\User as OrmModel;
 
-class User extends Authenticatable
+class User extends OrmModel
 {
-    use SoftDeletes;
-
-    protected $fillable = [
-        'image_id', 'name', 'email', 'password',
-    ];
-
-    protected $hidden = [
-        'created_at', 'updated_at', 'password', 'remember_token',
-    ];
-
-    public function image()
-    {
-        return $this->hasOne('\Cms\Models\Image', 'id', 'image_id');
-    }
-
-//    public function sites()
-//    {
-//        return $this->belongsToMany('Cms\Models\Site')->withTimestamps()->withPivot('user_level');
-//    }
-
-
     public function isAdmin()
     {
         return $this->user_level == 'ROLE_ADMIN';

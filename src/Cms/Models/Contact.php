@@ -1,18 +1,8 @@
 <?php
-
 namespace Cms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use HipsterJazzbo\Landlord\BelongsToTenant;
+use Cms\Models\Eloquent\Contact as OrmModel;
 
-class Contact extends Model
+class Contact extends OrmModel
 {
-    use BelongsToTenant;
-    use SoftDeletes;
-
-    protected $table = 'contacts';
-    protected $fillable = ['email', 'first_name', 'last_name', 'active'];
-    protected $hidden = [];
-
 }

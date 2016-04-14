@@ -1,13 +1,8 @@
 <?php
 namespace Cms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use HipsterJazzbo\Landlord\BelongsToTenant;
+use Cms\Models\Eloquent\PageBlocks as OrmModel;
 
-class PageBlocks extends Model  {
-    use BelongsToTenant;
-    use SoftDeletes;
-
-    protected $table = 'page_blocks';
+class PageBlocks extends OrmModel
+{
 }
