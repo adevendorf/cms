@@ -6,7 +6,6 @@ use Storage;
 
 trait Render
 {
-
     use Meta;
 
     public function multiArrayToArrayOfObjects($array)

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 
-class Image extends Model
+class ImageData extends Model
 {
 
     use BelongsToTenant;
@@ -27,6 +27,6 @@ class Image extends Model
 
     public function crops()
     {
-        return $this->hasMany('\Cms\Models\Crop');
+        return $this->hasMany('\Cms\Models\Crop', 'id', 'image_id');
     }
 }

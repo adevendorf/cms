@@ -3,8 +3,10 @@ namespace Cms\Models;
 
 use Cms\Models\Eloquent\Page as EloquentModel;
 use Cms\Traits\Render;
+use Cms\Contracts\Renderable;
 
-class Page extends EloquentModel  {
+class Page extends EloquentModel implements Renderable
+{
 
     use Render;
 

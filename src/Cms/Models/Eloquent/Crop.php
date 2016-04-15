@@ -25,6 +25,6 @@ class Crop extends Model  {
 
     public function image()
     {
-        return $this->belongsTo('\Cms\Models\Image');
+        return $this->belongsTo('\Cms\Models\ImageData');
     }
 }
