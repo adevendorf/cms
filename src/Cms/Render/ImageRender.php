@@ -7,7 +7,7 @@ use Exception;
 
 class ImageRender extends BaseRender
 {
-    public function render($content, $page, $cropname = 'default')
+    public function render($content, $cropname = 'default')
     {
         try {
             $filename = '/img/cropped/' . $content->image->asset->path . $content->image->id . '/' . $cropname . '_' . $content->image->asset->original_filename;

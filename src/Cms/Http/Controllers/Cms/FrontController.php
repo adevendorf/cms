@@ -30,7 +30,7 @@ class FrontController extends Controller
 
         if (!$route || !$route->page || $route->page->status != 'published') abort(404, 'Page Not Found');
 
-        return $this->renderPage($route->page);
+        return $route->page->render(); //$this->renderPage($route->page);
     }
 
     public function getTemplate($page)
