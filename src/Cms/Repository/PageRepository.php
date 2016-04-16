@@ -77,29 +77,7 @@ class PageRepository extends Repository
 
         return $page;
     }
-
-    public function findLatestBlogPosts($count, $categoryId = false)
-    {
-        $pages = Page::where('type', 'blog')
-            ->where('status', 'published')
-            ->with(
-//                'image',
-//                'image.crops',
-//                'image.asset',
-                'author',
-                'section',
-                'category'
-            )
-            ->orderBy('created_at', 'desc');
-
-        if ($categoryId) {
-            $pages = $pages->where('category_id', $categoryId);
-        }
-
-        $pages = $pages->paginate($count);
-
-        return $pages;
-    }
+    
 
 
     public function findLastEdited()

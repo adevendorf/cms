@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 
 class Form extends Model  {
+
     use BelongsToTenant;
     use SoftDeletes;
-
-
 
     protected $table = 'forms';
     protected $fillable = [
@@ -48,18 +47,17 @@ class Form extends Model  {
         return $this->belongsTo('\Cms\Models\Page', 'redirect_page_id');
     }
 
-
-    protected static function boot() {
-        parent::boot();
-
-        static::created(function ($item) {
-            $item->addToIndex();
-        });
-        static::updated(function ($item) {
-            $item->reindex();
-        });
-        static::deleted(function($item) {
-            $item->removeFromIndex();
-        });
-    }
+//    protected static function boot() {
+//        parent::boot();
+//
+//        static::created(function ($item) {
+//            $item->addToIndex();
+//        });
+////        static::updated(function ($item) {
+////            $item->reindex();
+////        });
+//        static::deleted(function($item) {
+//            $item->removeFromIndex();
+//        });
+//    }
 }

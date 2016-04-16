@@ -24,4 +24,24 @@ class BlogRepository extends Repository
 
         return $page;
     }
+
+    public function findLatestBlogPosts($count, $categoryId = false)
+    {
+        $pages = Page::where('type', 'blog')
+            ->where('status', 'published')
+            ->with(
+                'author',
+                'section',
+                'category'
+            )
+            ->orderBy('created_at', 'desc');
+
+        if ($categoryId) {
+            $pages = $pages->where('category_id', $categoryId);
+        }
+
+        $pages = $pages->paginate($count);
+
+        return $pages;
+    }
 }

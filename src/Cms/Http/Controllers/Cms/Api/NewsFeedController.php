@@ -4,6 +4,7 @@ namespace Cms\Http\Controllers\Cms\Api;
 use Cms\Repository\NewsFeedRepository;
 use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
+use CmsRepository;
 
 class NewsFeedController extends ApiController
 {
@@ -14,7 +15,7 @@ class NewsFeedController extends ApiController
     }
 
     public function index(Request $request) {
-        return $this->getRepository('section')->paginate($request);
+        return CmsRepository::get('section')->paginate($request);
     }
 
     public function store(Request $request) {
@@ -31,14 +32,14 @@ class NewsFeedController extends ApiController
     public function show(Request $request, $id)
     {
         return [
-            'feed' => $this->getRepository('section')->findBy('id', $id),
+            'feed' => CmsRepository::get('section')->findBy('id', $id),
             'items' => $this->repo->findBySection($request, $id)
             ];
     }
 
     public function destroy(Request $request, $id) {
-        $item = $this->model->where('site_id', $this->site->id)->findOrFail($id);
+        $item = $this->repo->findOrFail($id);
         $item->delete();
-        return response()->json(null, 200);
+        return $this->returnSuccess();
     }
 }

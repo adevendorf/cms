@@ -18,7 +18,7 @@ class ContentLatestPosts extends OrmModel implements Renderable
             $count = intval($json->count);
         }
 
-        $latest = CmsRepository::get('page')->findLatestBlogPosts($count);
+        $latest = CmsRepository::get('blog')->findLatestBlogPosts($count);
 
         return view($this->getTemplate('latestposts', $this->template), [
             'latest' => $latest

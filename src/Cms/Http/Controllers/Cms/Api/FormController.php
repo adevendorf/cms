@@ -3,7 +3,6 @@ namespace Cms\Http\Controllers\Cms\Api;
 
 use Cms\Traits\CmsRepo;
 use Illuminate\Http\Request;
-use Cms\Generators\FormGenerator;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Repository\FormRepository;
 
@@ -15,7 +14,6 @@ class FormController extends ApiController
     public function __construct(FormRepository $repo)
     {
         $this->repo = $repo;
-        $this->generator = new FormGenerator;
     }
 
     public function index(Request $request)
@@ -25,7 +23,7 @@ class FormController extends ApiController
 
     public function store(Request $request)
     {
-        $item = $this->generator->createNewForm($request);
+//        $item = $this->generator->createNewForm($request);
         return $item;
     }
 
