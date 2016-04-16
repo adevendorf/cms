@@ -17,6 +17,11 @@ class Repository
         $this->count = $count;
     }
 
+    public function results($data)
+    {
+        
+    }
+
     public function getUserId()
     {
         return Auth::user()->id;

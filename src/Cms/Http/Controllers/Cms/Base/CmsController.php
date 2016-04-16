@@ -2,9 +2,6 @@
 namespace Cms\Http\Controllers\Cms\Base;
 
 use App\Http\Controllers\Controller;
-use Cms\Managers\ImageManager;
-use Cms\Managers\UserManager;
-use Cms\Traits\CmsRepo;
 use Faker\Factory;
 
 /**
@@ -13,14 +10,7 @@ use Faker\Factory;
  */
 class CmsController extends Controller
 {
-
-    use CmsRepo;
-
-    /**
-     * @var Repository
-     */
-    protected $repo;
-
+    
     /**
      * Enable DB Logging
      */

@@ -5,18 +5,14 @@ namespace Cms\Http\Controllers\Cms\Api;
 use Illuminate\Http\Request;
 use Cms\Repository\ContentRepository;
 use Cms\Http\Controllers\Cms\Base\ApiController;
-use Cms\Managers\ImageManager;
+use CmsImage;
 
 class ContentController extends ApiController
 {
-    protected $imageManager;
-
-    public function __construct(ContentRepository $repo,  ImageManager $imageManager)
+    public function __construct(ContentRepository $repo)
     {
         $this->repo = $repo;
-        $this->imageManager = $imageManager;
     }
-
 
     public function store(Request $request)
     {
@@ -35,7 +31,7 @@ class ContentController extends ApiController
         $image = $request->input('image');
 
         if ($image) {
-            $image = $this->imageManager->updateOrCreate($request, isset($image['id']) ? $image['id'] : false);
+            $image = CmsImage::updateOrCreate($request, isset($image['id']) ? $image['id'] : false);
             $content->image_id = $image['id'];
         }
         $content->save();
@@ -50,6 +46,6 @@ class ContentController extends ApiController
         foreach($json as $content) {
             $this->repo->updateOrder(intval($content['id']), intval($content['order']));
         }
-        return response()->json(null, 200);
+        return $this->returnSuccess();
     }
 }

@@ -2,16 +2,27 @@
 namespace Cms\Models;
 
 use Cms\Models\Eloquent\Content as OrmModel;
-use Cms\Traits\Render;
 use Cms\Contracts\Renderable;
 
 class Content extends OrmModel implements Renderable
 {
-    use Render;
+    protected $contentClass = [
+        'Text' => \Cms\Models\Content\ContentText::class,
+        'Code' => \Cms\Models\Content\ContentCode::class,
+        'Gallery' => \Cms\Models\Content\ContentGallery::class,
+        'Image' => \Cms\Models\Content\ContentImage::class,
+        'Block' => \Cms\Models\Content\ContentImage::class,
+        'Form' => \Cms\Models\Content\ContentForm::class,
+        'FormField' => \Cms\Models\Content\ContentFormField::class,
+        'Register' => \Cms\Models\Content\ContentFormField::class,
+        'Login' => \Cms\Models\Content\ContentFormField::class,
+        'ListCategories' => \Cms\Models\Content\ContentListCategories::class,
+        'LatestPosts' => \Cms\Models\Content\ContentLatestPosts::class,
+    ];
 
     public function render()
     {
-        $model = '\\Cms\\Models\\' . ucfirst($this->type);
+        $model = $this->contentClass[ucfirst($this->type)];
         $model = new $model();
         $model->fill($this->toArray());
 

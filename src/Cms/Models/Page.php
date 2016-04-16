@@ -1,11 +1,11 @@
 <?php
 namespace Cms\Models;
 
-use Cms\Models\Eloquent\Page as EloquentModel;
+use Cms\Models\Eloquent\Page as OrmModel;
 use Cms\Traits\Render;
 use Cms\Contracts\Renderable;
 
-class Page extends EloquentModel implements Renderable
+class Page extends OrmModel implements Renderable
 {
 
     use Render;
@@ -28,7 +28,6 @@ class Page extends EloquentModel implements Renderable
         $blocks = [];
 
         foreach ($this->blocks as $block) {
-//            $html = $renderer->render($block->content, $this);
             $blocks[$block->title] = $block->render();
         }
 
@@ -64,4 +63,5 @@ class Page extends EloquentModel implements Renderable
         $path = '/' . config('cms.blog_path') . '/' . $this->category->slug . '/' . $this->slug;
         return $path;
     }
+    
 }

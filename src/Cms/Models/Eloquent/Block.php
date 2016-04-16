@@ -12,7 +12,8 @@ class Block extends Model
     use SoftDeletes;
 
     protected $table = 'blocks';
-    protected $fillable = ['type',
+    protected $fillable = [
+        'type',
         'image_id',
         'title',
         'slug',

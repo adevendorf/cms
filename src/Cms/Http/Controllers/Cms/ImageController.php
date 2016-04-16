@@ -17,6 +17,7 @@ use Cms\Models\Image;
 use Cms\Models\Asset;
 use Cms\Models\Crop;
 use Cms\Models\CropSize;
+use CmsRepository;
 
 use App\Events\ImageWasUpdated;
 
@@ -31,7 +32,6 @@ class ImageController extends ApiController
 
     public function __construct(ImageRepository $repo, FileManager $fileManager)
     {
-        $this->generator = new ImageGenerator();
         $this->repo = $repo;
         $this->fileManager = $fileManager;
     }
@@ -86,7 +86,10 @@ class ImageController extends ApiController
         return $image;
     }
 
-    public function getImagePreview(Request $request, $id)
+
+
+
+    public function showImageById(Request $request, $id)
     {
         $image = $this->repo->findById($id);
         $crop = $image->crops->filter(function($item) {
@@ -96,17 +99,29 @@ class ImageController extends ApiController
         return $image->asset->createCropPreview('small', $crop->crop_x, $crop->crop_y, $crop->crop_width, $crop->crop_height);
     }
 
-    public function getCropPreview(Request $request, $id)
+    public function showImagePreview(Request $request, $id)
     {
-        $asset = $this->getRepository('asset')->findById($id);
+        $asset = CmsRepository::get('asset')->findById($id);
         return $asset->createCropPreview('small', $request->input('crop_x'), $request->input('crop_y'), $request->input('crop_width'), $request->input('crop_height'));
     }
 
-    public function getLargeCropPreview(Request $request, $id)
+    public function showImagePreviewLarge(Request $request, $id)
     {
-        $asset = $this->getRepository('asset')->findById($id);
+        $asset = CmsRepository::get('asset')->findById($id);
         return $asset->createCropPreview('large', $request->input('crop_x'), $request->input('crop_y'), $request->input('crop_width'), $request->input('crop_height'));
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function renderPublicCropExtended(Request $request, $siteFolder, $year, $month, $day, $dir1, $id, $version, $filename)
     {

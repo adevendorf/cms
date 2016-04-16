@@ -2,16 +2,16 @@
 namespace Cms\Repository;
 
 use Cms\Repository\Base\Repository;
-use Cms\Models\ImageData;
+use Cms\Models\Image;
 
 class ImageRepository extends Repository
 {
     /**
-     * @return ImageData
+     * @return Image
      */
     public function newModel()
     {
-        $item = new ImageData;
+        $item = new Image;
         $item->created_by = $this->getImageId();
         return $item;
     }
@@ -21,7 +21,7 @@ class ImageRepository extends Repository
      */
     public function get()
     {
-        return ImageData::get();
+        return Image::get();
     }
 
     /**
@@ -30,7 +30,7 @@ class ImageRepository extends Repository
      */
     public function paginate($request)
     {
-        $items = ImageData::orderBy('id', 'asc');
+        $items = Image::orderBy('id', 'asc');
 
         $this->count = $request->input('count') ? $request->input('count') : $this->count;
 
@@ -44,7 +44,7 @@ class ImageRepository extends Repository
      */
     public function findBy($column, $value)
     {
-        return ImageData::with(
+        return Image::with(
             'asset',
             'crops'
             )
@@ -59,7 +59,7 @@ class ImageRepository extends Repository
      */
     public function destroy($id)
     {
-        $item = ImageData::findOrFail($id);
+        $item = Image::findOrFail($id);
         $item->delete();
         return true;
     }

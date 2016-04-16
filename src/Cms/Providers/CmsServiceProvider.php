@@ -94,13 +94,14 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-        $app = $this->app;
-        
-        $app['cmsImage'] = $app->share(function ($app) {
-            return new \Cms\Managers\ImageManger();
+        $this->app->singleton('CmsRepositoryManager', function ($app) {
+            $manager = '\\Cms\\Managers\\System\\RepositoryManager';
+            return new $manager();
         });
 
-        $app->alias('cmsImage', '\Cms\Managers\ImageManager');
+        $this->app->singleton('CmsImageManager', function ($app) {
+            $manager = '\\Cms\\Managers\\System\\ImageManager';
+            return new $manager();
+        });
     }
 }

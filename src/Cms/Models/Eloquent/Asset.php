@@ -27,8 +27,8 @@ class Asset extends Model
         'created_at'
     ];
 
-    public function images()
-    {
-        return $this->belongsToMany('\Cms\Image');
-    }
+//    public function images()
+//    {
+//        return $this->belongsToMany('\Cms\Models\Image', 'id', 'image_id');
+//    }
 }

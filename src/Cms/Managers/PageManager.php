@@ -1,21 +1,14 @@
 <?php
-namespace Cms\Generators;
+namespace Cms\Managers;
 
+use Illuminate\Http\Request;
 use Cms\Traits\CmsRepo;
 
-/**
- * Class PageGenerator
- * @package Cms\Generators
- */
-class PageGenerator
+class PageManager 
 {
     use CmsRepo;
 
-    /**
-     * @param $request
-     * @return Page
-     */
-    public function createNewPage($request)
+    public function create(Request $request)
     {
         $extension = $this->getRepository('extension');
         $defaultSectionId = $extension->findKeyInType('section', 'default');

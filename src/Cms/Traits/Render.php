@@ -29,7 +29,7 @@ trait Render
         return $object;
     }
 
-    public function template($type, $name)
+    public function getTemplate($type, $name)
     {
         $local = Storage::disk('local_views');
 

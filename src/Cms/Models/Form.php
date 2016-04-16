@@ -1,65 +1,34 @@
 <?php
-
 namespace Cms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use HipsterJazzbo\Landlord\BelongsToTenant;
+use Cms\Models\Eloquent\Form as OrmModel;
+use Cms\Models\Block;
+use Faker\Factory;
+use Config;
+use Auth;
 
-class Form extends Model  {
-    use BelongsToTenant;
-    use SoftDeletes;
+class Form extends OrmModel  {
 
-
-
-    protected $table = 'forms';
-    protected $fillable = [
-        'submission_uuid',
-        'title',
-        'created_by',
-        'redirect_page_id',
-        'redirect_url',
-        'send_email',
-        'redirect_to_page',
-        'email_to',
-        'submit_text',
-        'save_data',
-        'save_to',
-        'save_to_name',
-        'ajax'
-    ];
-    protected $hidden = [
-        'updated_at',
-        'created_at'
-    ];
-
-    public function fields()
+    public function createNewForm($request)
     {
-        return $this->hasMany('Cms\FormField', 'form_id', 'id')->orderBy('order', 'asc');
+        $faker = Factory::create();
+
+        $item = new Form;
+        $item->fill($request->all());
+        $item->title = "New Form";
+        $item->submission_uuid = $faker->uuid;
+        $item->save_to = 'database';
+        $item->created_by = Auth::user()->id;
+        $item->save();
+
+        $block = new Block;
+        $block->title = '1';
+        $block->type = 'form';
+        $block->created_by = Auth::user()->id;
+
+        $item->blocks()->save($block);
+
+        return $item;
     }
 
-    public function blocks()
-    {
-        return $this->belongsToMany('\Cms\Models\Block', 'form_blocks');
-    }
-
-    public function redirectPage()
-    {
-        return $this->belongsTo('\Cms\Models\Page', 'redirect_page_id');
-    }
-
-
-    protected static function boot() {
-        parent::boot();
-
-        static::created(function ($item) {
-            $item->addToIndex();
-        });
-        static::updated(function ($item) {
-            $item->reindex();
-        });
-        static::deleted(function($item) {
-            $item->removeFromIndex();
-        });
-    }
 }

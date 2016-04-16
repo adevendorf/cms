@@ -1,19 +1,14 @@
 <?php
-namespace Cms\Render;
+namespace Cms\Models\Content;
 
-use Cms\Render\BaseRender;
-use Cms\Render\FormFieldRender;
-use Cms\Render\ContentRender;
-use Cms\Repository\FormRepository;
+use Cms\Models\Form as OrmModel;
+use Cms\Traits\Render;
+use Cms\Contracts\Renderable;
 
-class FormRender extends BaseRender
+class ContentFeed extends OrmModel implements Renderable
 {
-    protected $repo;
+    use Render;
 
-    public function setup()
-    {
-        $this->repo = new FormRepository();
-    }
     public function render($content, $page, $step = 0)
     {
         if (!$content->resource_id) return '';
@@ -35,11 +30,12 @@ class FormRender extends BaseRender
         $last = count($form->blocks) == 1 ? true : false;
         $step = 2;
 
-        return view($this->template('form', '_default'), [
+        return view($this->getTemplate('form', '_default'), [
             'form' => $form,
             'fields' => $fields,
             'last' => $last,
             'step' => $step
         ]);
     }
+
 }

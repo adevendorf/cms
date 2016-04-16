@@ -6,10 +6,17 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+/**
+ * Class DeleteLocalImageCache
+ * @package Cms\Jobs
+ */
 class DeleteLocalImageCache extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var Image
+     */
     protected $image;
 
     /**
@@ -29,6 +36,5 @@ class DeleteLocalImageCache extends Job implements ShouldQueue
      */
     public function handle()
     {
-        //
     }
 }

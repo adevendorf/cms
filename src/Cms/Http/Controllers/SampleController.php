@@ -4,22 +4,13 @@ namespace Cms\Http\Controllers;
 use Cms\Repository\PageRepository;
 use Cms\Http\Controllers\Cms\Base\CmsController;
 use Illuminate\Http\Request;
-use Cms\Render\BlockRender;
+use CmsRepository;
 
 class SampleController extends CmsController
 {
-    protected $repo;
-    protected $renderer;
-
-    public function __construct(PageRepository $repo, BlockRender $render)
-    {
-        $this->repo = $repo;
-        $this->renderer = $render;
-    }
-
     public function getSamplePage(Request $request)
     {
-        $page = $this->repo->findBy('slug', 'sample');
+        $route = CmsRepository::get('route')->findBy('slug', 'sample');
 
         $blocks = [];
 

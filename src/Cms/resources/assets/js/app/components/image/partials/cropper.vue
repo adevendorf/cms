@@ -192,8 +192,8 @@ export default {
             var data = cropData;
 
              var preview = {
-              width: $('#image-' + that.image.image.id).cropper('getImageData').naturalWidth,
-              height: $('#image-' + that.image.image.id).cropper('getImageData').naturalHeight
+              width: $('#image-' + that.image.image.id).cropper('getImage').naturalWidth,
+              height: $('#image-' + that.image.image.id).cropper('getImage').naturalHeight
             };
 
             var setCropData = {
@@ -211,8 +211,8 @@ export default {
         crop(e) {
   
           var preview = {
-            width: $('#image-' + that.image.image.id).cropper('getImageData').naturalWidth,
-            height: $('#image-' + that.image.image.id).cropper('getImageData').naturalHeight
+            width: $('#image-' + that.image.image.id).cropper('getImage').naturalWidth,
+            height: $('#image-' + that.image.image.id).cropper('getImage').naturalHeight
           };
 
           window._CROP = {

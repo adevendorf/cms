@@ -1,12 +1,14 @@
 <?php
-namespace Cms\Render;
+namespace Cms\Models\Content;
 
-use Cms\Render\BaseRender;
-use Cms\Models\NewsFeed;
-use Cms\Render\ImageRender;
+use Cms\Models\NewsFeed as OrmModel;
+use Cms\Traits\Render;
+use Cms\Contracts\Renderable;
 
-class FeedRender extends BaseRender
+class ContentFeed extends OrmModel implements Renderable
 {
+    use Render;
+
 
     public function render($content, $page)
     {
@@ -51,7 +53,7 @@ class FeedRender extends BaseRender
 
         $contents = $this->multiArrayToArrayOfObjects($contents);
 
-        return view($this->template('feed', $content->template), [
+        return view($this->getTemplate('feed', $content->template), [
             'attributes' => $this->addStylingToDiv($content, $content->styling),
             'contents' => $contents
         ]);

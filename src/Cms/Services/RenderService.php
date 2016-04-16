@@ -1,18 +1,12 @@
 <?php namespace Cms\Services;
 
-use Cms\Managers\ImageManager;
+use CmsImage;
 
 class RenderService
 {
 
     protected $page;
     protected $content;
-    protected $imageManager;
-
-    public function __construct(ImageManager $imageManager)
-    {
-        $this->imageManager = $imageManager;
-    }
 
     public function setPageContent($page, $content)
     {
@@ -34,7 +28,7 @@ class RenderService
 
         if (!$section || !$section->image_id || !$section->image) return '';
 
-        return $this->imageManager->generateUrls($section->image, $crop);
+        return CmsImage::generateUrls($section->image, $crop);
     }
 
     public function sectionImageAsBackground($name, $crop)

@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 class ApiController extends CmsController
 {
     /**
+     * @var
+     */
+    protected $repo;
+
+    /**
      * Return a paginated collection with no options
      *
      * @param Request $request
@@ -38,6 +43,16 @@ class ApiController extends CmsController
      */
     public function destroy(Request $request, $id) {
         $this->repo->destroy($id);
-        return response()->json(null, 200);
+        return true;
+    }
+
+    /**
+     * Success Message
+     * 
+     * @return array
+     */
+    public function returnSuccess()
+    {
+        return ['success' => true];
     }
 }

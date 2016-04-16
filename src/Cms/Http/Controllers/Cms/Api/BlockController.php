@@ -6,7 +6,9 @@ use Cms\Models\Block;
 use Cms\Repository\BlockRepository;
 use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
-use Cms\Managers\ImageManager;
+use CmsImage;
+
+
 
 /**
  * Class BlockController
@@ -19,21 +21,16 @@ class BlockController extends ApiController
      */
     protected $type;
 
-    /**
-     * @var ImageManager
-     */
-    protected $imageManager;
 
     /**
      * BlockController constructor.
      * @param BlockRepository $repo
      * @param ImageManager $imageManager
      */
-    public function __construct(BlockRepository $repo,  ImageManager $imageManager)
+    public function __construct(BlockRepository $repo)
     {
         $this->repo = $repo;
         $this->repo->setType('collection');
-        $this->imageManager = $imageManager;
     }
 
     /**
@@ -67,7 +64,7 @@ class BlockController extends ApiController
         $image = $request->input('image');
 
         if ($image) {
-            $image = $this->imageManager->updateOrCreate($request, isset($image['id']) ? $image['id'] : false);
+            $image = CmsImage::updateOrCreate($request, isset($image['id']) ? $image['id'] : false);
             $block->image_id = $image['id'];
         }
 

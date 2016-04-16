@@ -1,15 +1,8 @@
 <?php
-
 namespace Cms\Http\Controllers\Cms;
 
 use Cms\Http\Controllers\Cms\Base\CmsController;
-use Cms\Repository\PageRepository;
-use Cms\Models\Category;
-use Cms\Models\Page;
-use Cms\Repository\RouteRepository;
-use Cms\Traits\Meta;
-use Cms\Render\PageRender;
-use Illuminate\Http\Requestl;
+use CmsRepository;
 
 
 /**
@@ -18,32 +11,6 @@ use Illuminate\Http\Requestl;
  */
 class BlogController extends CmsController
 {
-    /**
-     * @var PageRender
-     */
-    protected $render;
-
-    /**
-     * BlogController constructor.
-     * @param PageRepository $repo
-     * @param PageRender $render
-     */
-    public function __construct(PageRepository $repo, PageRender $render, RouteRepository $routeRepo)
-    {
-        $this->repo = $repo;
-        $this->render = $render;
-        $this->routeRepo = $routeRepo;
-    }
-
-    /**
-     * @param $page
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function renderPage($page)
-    {
-        $this->render->setPage($page);
-        return $this->render->render();
-    }
 
     /**
      * @param $year
@@ -54,15 +21,11 @@ class BlogController extends CmsController
      */
     public function getPost($year, $month, $day, $slug)
     {
-        $route = $this->routeRepo->findBy('url', $slug);
-        if (!$route) abort(404, 'Page Not Found');
+        $route = CmsRepository::get('route')->findBy('url', $slug);
 
-        $post = $this->repo->findById($route->page_id);
+        abort_if(!$route || $route->page->status != 'published', 404, 'Page Not Found');
 
-        if (!$post || $post->status != 'published') abort(404, 'Page Not Found');
-
-        return $this->renderPage($post);
-
+        return $route->page->render();
     }
 
     /**
@@ -70,7 +33,7 @@ class BlogController extends CmsController
      */
     public function getIndex()
     {
-        $posts = $this->repo->remember()->findLatestBlogPosts(10);
+        $posts = CmsRepository::get('blog')->findLatestBlogPosts(10);
 
         return view('cms.themes.default.blog.blog_index', [
             'posts' => $posts,
@@ -85,11 +48,11 @@ class BlogController extends CmsController
     public function getCategory($slug)
     {
         $posts = [];
-        $category = $this->getRepository('category')->remember()->findBy('slug', $slug);
+        $category = CmsRepository::get('category')->findBy('slug', $slug);
 
-        if ($category) {
-            $posts = $this->repo->remember()->findLatestBlogPosts(10, $category->id);
-        }
+        abort_if(!$category, 404, 'Page Not Found');
+
+        $posts = $CmsRepository::get('blog')->findLatestBlogPosts(10, $category->id);
 
         return view('cms.themes.default.blog.blog_index', [
             'posts' => $posts,

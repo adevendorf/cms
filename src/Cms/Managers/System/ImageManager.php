@@ -1,5 +1,5 @@
 <?php
-namespace Cms\Managers;
+namespace Cms\Managers\System;
 
 use Cms\Models\Image;
 use Cms\Models\Crop;
@@ -13,7 +13,7 @@ use Cms\Events\ImageWasUpdated;
 
 class ImageManager
 {
-    public function create($request)
+    public static function create($request)
     {
         $asset = Asset::find($request->input('image.asset.id'));
 
@@ -32,14 +32,14 @@ class ImageManager
         return $image;
     }
 
-    public function update($request)
+    public static function update($request)
     {
         $image = Image::findOrFail($request->input('image.id'));
         $image->fill($request->input('image'));
         $image->asset_id = $request->input('image.asset.id');
         $image->save();
 
-        $this->updateCrops($image, $request->input('image.crops'));
+        self::updateCrops($image, $request->input('image.crops'));
 
         Event::fire(new ImageWasUpdated($image));
 
@@ -47,15 +47,15 @@ class ImageManager
     }
 
 
-    public function updateOrCreate($request, $imageId)
+    public static function updateOrCreate($request, $imageId)
     {
         if (!$imageId) {
-            return $this->create($request);
+            return self::create($request);
         }
-        return $this->update($request);
+        return self::update($request);
     }
 
-    public function updateCrops($item, $crops)
+    public static function updateCrops($item, $crops)
     {
         DB::transaction(function () use($item, $crops) {
 
@@ -70,7 +70,7 @@ class ImageManager
         });
     }
 
-    public function generateUrls($image, $crop)
+    public static function generateUrls($image, $crop)
     {
        return '/img/cropped/' . $image->asset->path . $image->id . '_' . strtolower($crop) . '_' . $image->asset->original_filename;
     }

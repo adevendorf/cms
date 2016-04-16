@@ -80,9 +80,9 @@ Route::group(['middleware' => ['tenant', 'web']], function () {
 
     Route::group(['middleware' => ['auth', 'admin']], function () {
         Route::get('/admin', '\Cms\Http\Controllers\Cms\AdminController@index');
-        Route::get('/admin/image-by-id/{id}', '\Cms\Http\Controllers\Cms\ImageController@getImagePreview');
-        Route::get('/admin/img-preview/{id}', '\Cms\Http\Controllers\Cms\ImageController@getCropPreview');
-        Route::get('/admin/img-preview-lg/{id}', '\Cms\Http\Controllers\Cms\ImageController@getLargeCropPreview');
+        Route::get('/admin/image-by-id/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImageById');
+        Route::get('/admin/img-preview/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImagePreview');
+        Route::get('/admin/img-preview-lg/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImagePreviewLarge');
     });
 
     Route::post('submit/{id}', '\Cms\Http\Controllers\Cms\SubmitController@submit');
@@ -95,5 +95,5 @@ Route::group(['middleware' => ['tenant', 'web']], function () {
 
     Route::get('/sample', '\Cms\Http\Controllers\SampleController@getSamplePage');
 
-    Route::get('/{all}', '\Cms\Http\Controllers\Cms\FrontController@getPage')->where('all', '.*');
+    Route::get('/{all}', '\Cms\Http\Controllers\Cms\UrlController@show')->where('all', '.*');
 });

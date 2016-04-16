@@ -5,7 +5,6 @@ use DB;
 use Cache;
 use Config;
 use Carbon\Carbon;
-use Cms\Render\ImageRender;
 use Cms\Models\Extension;
 use Illuminate\Http\Request;
 
@@ -57,10 +56,9 @@ class CmsService {
         return $category[1]['slug'];
     }
 
-    public function image($content, $name) {
-        $render = new ImageRender();
-        return $render->render($content, null, $name);
-    }
+//    public function image($content, $name) {
+//        return $content->render($content, null, $name);
+//    }
 
     public function getSetting($type, $key)
     {
