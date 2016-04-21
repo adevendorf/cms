@@ -21,10 +21,10 @@ class BlogController extends CmsController
      * @param $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getPost(Request $request, $year, $month, $day, $slug)
+    public function getPost(Request $request, $id, $slug)
     {
-        $route = Cache::get($request->url(), function() use($request) {
-            $value = CmsRepository::get('route')->findBy('url', $slug);
+        $route = Cache::get($request->url(), function() use($request, $slug) {
+            $value = CmsRepository::get('route')->findBy('url', $slug, 'blog');
             Cache::put($request->url(), $value, self::CACHE_EXPIRE);
             return $value;
         });

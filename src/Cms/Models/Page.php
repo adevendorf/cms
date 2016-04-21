@@ -10,7 +10,7 @@ class Page extends OrmModel implements Renderable
 {
 
     use Render;
-
+    
     const CACHE_EXPIRE = 0.5;
 
     public function render($options = [])

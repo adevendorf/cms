@@ -13,6 +13,7 @@ class Route extends Model  {
     protected $fillable = [
         'url',
         'page_id',
+        'primary_dir',
         'redirect',
         'redirect_to',
         'created_by',

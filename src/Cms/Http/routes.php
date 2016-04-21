@@ -89,7 +89,7 @@ Route::group(['middleware' => ['tenant', 'web']], function () {
 
     Route::get(config('cms.blog_path'), '\Cms\Http\Controllers\Cms\BlogController@getIndex');
     Route::get(config('cms.blog_path').'{category}', '\Cms\Http\Controllers\Cms\BlogController@getCategory');
-    Route::get(config('cms.blog_path').'{year}/{month}/{day}/{slug}', '\Cms\Http\Controllers\Cms\BlogController@getPost');
+    Route::get(config('cms.blog_path').'{id}/{slug}', '\Cms\Http\Controllers\Cms\BlogController@getPost');
 
 
 

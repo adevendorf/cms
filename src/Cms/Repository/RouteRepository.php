@@ -30,10 +30,15 @@ class RouteRepository extends Repository
             ->firstOrFail();
     }
 
-    public function findBy($column, $value)
+    public function findBy($column, $value, $primary = null)
     {
-        $item = Route::where($column, $value)
-            ->firstOrFail();
+        $item = Route::where($column, $value);
+
+        if ($primary) {
+            $item = $item->where('primary_dir', $primary);
+        }
+        
+        $item = $item->firstOrFail();
 
         return $item;
     }

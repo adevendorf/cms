@@ -47,21 +47,6 @@ class Page extends Model  {
 
     protected $hidden = ['deleted_at', 'site_id'];
 
-//    public function setSlugAttribute($value)
-//    {
-//        $this->attributes['slug'] = str_slug($value, '-');
-//    }
-
-//    public function setFields($array)
-//    {
-//        $this->hidden = array_merge($this->hidden, $this->fillable);
-//
-//        foreach($array as $item) {
-//            $index = array_search($item, $this->hidden);
-//            array_splice($this->hidden, $index, 1);
-//        }
-//    }
-
     public function route()
     {
         return $this->hasOne('Cms\Models\Route');

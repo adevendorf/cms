@@ -3,6 +3,7 @@ namespace Cms\Helpers;
 
 use Cache;
 use Config;
+use Carbon\Carbon;
 use Cms\Models\Extension;
 use Cms\Models\Content\ContentImage;
 
@@ -39,5 +40,24 @@ class Cms
 
         $contentImage = new ContentImage();
         return $contentImage->render(['image' => $image, 'name' => $name]);
+    }
+
+    public static function published($page)
+    {
+        $carbon = new Carbon($page->created_at);
+        return $carbon->year . '/' . sprintf("%02d", $carbon->month)  . '/' . sprintf("%02d", $carbon->day) . '/';
+    }
+
+    public static function author($author)
+    {
+        if ($author && $author->name != '') return $author->name;
+
+        return 'Someone';
+    }
+
+    public static function formatDate($date)
+    {
+        $carbon = new Carbon($date);
+        return $carbon->toDayDateTimeString();
     }
 }

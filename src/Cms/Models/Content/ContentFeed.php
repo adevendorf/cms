@@ -12,10 +12,10 @@ class ContentFeed extends OrmModel implements Renderable
     use Render;
     const CACHE_EXPIRE = 0.5;
 
-    protected $casts = [
-        'styling' => 'array',
-        'data' => 'array',
-    ];
+//    protected $casts = [
+//        'styling' => 'array',
+//        'data' => 'array',
+//    ];
 
     public function render($options = [])
     {

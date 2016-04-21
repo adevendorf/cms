@@ -23,24 +23,7 @@ class CmsService {
         return config('cms.blog_path');
     }
 
-    public function author($author)
-    {
-        if ($author && $author->name != '') return $author->name;
 
-        return 'Someone';
-    }
-
-    public function published($post)
-    {
-        $carbon = new Carbon($post->created_at);
-        return $carbon->year . '/' . sprintf("%02d", $carbon->month)  . '/' . sprintf("%02d", $carbon->day) . '/';
-    }
-
-    public function formatDate($date)
-    {
-        $carbon = new Carbon($date);
-        return $carbon->toDayDateTimeString();
-    }
 
     public function render($section, $name) {
         if (! isset($section[$name])) return '';
