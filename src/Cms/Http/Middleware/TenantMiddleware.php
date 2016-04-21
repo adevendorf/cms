@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 class TenantMiddleware
 {
 
+    const CACHE_EXPIRE = 0.5;
+
     /**
      * CmsMiddleware constructor.
      */
@@ -31,7 +33,12 @@ class TenantMiddleware
     {
         $minutes = 0.5;
 
-        $site = Site::whereDomain($request->getHost())->first();
+        $site = Cache::get('site:'.str_slug($request->getHost()), function() use($request) {
+            $value = Site::whereDomain($request->getHost())->first();
+            Cache::put('site:'.str_slug($request->getHost()), $value, self::CACHE_EXPIRE);
+            return $value;
+        });
+
 
         abort_if(!$site, 404);
 

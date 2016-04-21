@@ -7,7 +7,7 @@ use Cms\Contracts\Renderable;
 use CmsRepository;
 use Cache;
 
-class ContentImage extends OrmModel implements Renderable
+class ContentIconBox extends OrmModel implements Renderable
 {
     use Render;
 
@@ -15,17 +15,14 @@ class ContentImage extends OrmModel implements Renderable
 
     public function render($options = [])
     {
-        if (!isset($options['image'])) {
-            $imageId = $this->image_id;
-            $image = Cache::get('image:'.$imageId, function() use($imageId) {
-                $value = CmsRepository::get('image')->findBy('id', $imageId);
-                Cache::put('image:'.$imageId, $value, self::CACHE_EXPIRE);
-                return $value;
-            });
-        } else {
-            $image = $options['image'];
-        }
-        
+
+        $imageId = $this->image_id;
+        $image = Cache::get('image:'.$imageId, function() use($imageId) {
+            $value = CmsRepository::get('image')->findBy('id', $imageId);
+            Cache::put('image:'.$imageId, $value, self::CACHE_EXPIRE);
+            return $value;
+        });
+
         $cropName = 'default';
 
         if (isset($options['name'])) {
@@ -34,9 +31,10 @@ class ContentImage extends OrmModel implements Renderable
 
         $filename = '/img/cropped/' . $image->asset->path . $image->id . '/' . $cropName . '_' . $image->asset->original_filename;
 
-        return view($this->getTemplate('image', 'default'), [
+        return view($this->getTemplate('iconbox', 'default'), [
             'attributes' => $this->addStylingToDiv($this, $this->styling),
-            'src' => $filename
+            'src' => $filename,
+            'text' => html_entity_decode($this->data)
         ]);
     }
 }

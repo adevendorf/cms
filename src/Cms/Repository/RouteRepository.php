@@ -23,7 +23,10 @@ class RouteRepository extends Repository
     public function findWithPageBySlug($slug)
     {
         return Route::where('url', $slug)
-            ->with('page')
+            ->with(
+                'page',
+                'page.blocks'
+            )
             ->firstOrFail();
     }
 
@@ -32,6 +35,13 @@ class RouteRepository extends Repository
         $item = Route::where($column, $value)
             ->firstOrFail();
 
+        return $item;
+    }
+
+    public function findForPages($pages)
+    {
+        $item = Route::whereIn('page_id', $pages)
+            ->get();
         return $item;
     }
 

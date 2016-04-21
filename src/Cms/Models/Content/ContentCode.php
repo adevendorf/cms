@@ -9,7 +9,7 @@ class ContentCode extends OrmModel implements Renderable
 {
     use Render;
 
-    public function render()
+    public function render($options = [])
     {
         return view($this->getTemplate('code', $this->template), [
             'attributes' => $this->addStylingToDiv($this, $this->styling),

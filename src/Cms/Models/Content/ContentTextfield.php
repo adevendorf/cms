@@ -9,7 +9,7 @@ class ContentTextField extends OrmModel implements Renderable
 {
     use Render;
 
-    public function render()
+    public function render($options = [])
     {
         return view($this->getTemplate('code', '_default'), [
             'attributes' => $this->addStylingToDiv($content, $content->styling),

@@ -1,21 +1,21 @@
 <?php
 
-//Route::group(['prefix' => '_debugbar', 'middleware' => ['web', 'auth']], function() {
-//    Route::get('assets/stylesheets', [
-//        'as' => 'debugbar-css',
-//        'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@css'
-//    ]);
-//
-//    Route::get('assets/javascript', [
-//        'as' => 'debugbar-js',
-//        'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@js'
-//    ]);
-//
-//    Route::get('open', [
-//        'as' => 'debugbar-open',
-//        'uses' => '\Barryvdh\Debugbar\Controllers\OpenController@handler'
-//    ]);
-//});
+Route::group(['prefix' => '_debugbar', 'middleware' => ['web', 'auth']], function() {
+    Route::get('assets/stylesheets', [
+        'as' => 'debugbar-css',
+        'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@css'
+    ]);
+
+    Route::get('assets/javascript', [
+        'as' => 'debugbar-js',
+        'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@js'
+    ]);
+
+    Route::get('open', [
+        'as' => 'debugbar-open',
+        'uses' => '\Barryvdh\Debugbar\Controllers\OpenController@handler'
+    ]);
+});
 
 
 

@@ -91,21 +91,4 @@ class Page extends Model  {
     {
         return $this->belongsTo('\Cms\Models\Section', 'section_id', 'id');
     }
-
-//    protected static function boot() {
-//        parent::boot();
-//
-//        static::deleting(function($page) {
-//            foreach($page->blocks as $block)
-//            {
-//                $block->delete();
-//            }
-//
-//            $resource = $page->resource();
-//            if ($resource) {
-//                $resource->delete();
-//            }
-//
-//        });
-//    }
 }

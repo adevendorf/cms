@@ -3,6 +3,7 @@ namespace Cms\Traits;
 
 use Cms\Traits\Meta;
 use Storage;
+use stdClass;
 
 trait Render
 {
@@ -35,14 +36,22 @@ trait Render
 
         if ($name == '_default') $name = 'default';
 
+        //try theme->type-name
         if ($local->has('cms/themes/'. config('cms.theme') .'/content/'. $type .'-'. $name .'.blade.php')) {
             return 'cms/themes/'. config('cms.theme') .'/content/'. $type .'-'. $name;
+
+        //try default->type-name
         } elseif ($local->has('cms/themes/default/content/'. $type .'-'. $name .'.blade.php')) {
             return 'cms/themes/default/content/'. $type .'-'. $name;
+
+        //try theme->type-default
         } elseif ($local->has('cms/themes/'. config('cms.theme') .'/content/'. $type .'-default.blade.php')) {
             return 'cms/themes/'. config('cms.theme') .'/content/'. $type .'-default';
+
+        //try default->type-default
         } elseif ($local->has('cms/themes/default/content/'. $type .'-default.blade.php')) {
             return 'cms/themes/default/content/' . $type . '-default';
+
         } else {
             return abort('404', 'Template Not Found');
         }

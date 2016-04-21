@@ -4,13 +4,16 @@ namespace Cms\Models;
 use Cms\Models\Eloquent\Page as OrmModel;
 use Cms\Traits\Render;
 use Cms\Contracts\Renderable;
+use Cache;
 
 class Page extends OrmModel implements Renderable
 {
 
     use Render;
 
-    public function render() 
+    const CACHE_EXPIRE = 0.5;
+
+    public function render($options = [])
     {
 
         if ($this->type == 'blog') {
@@ -27,7 +30,15 @@ class Page extends OrmModel implements Renderable
 
         $blocks = [];
 
-        foreach ($this->blocks as $block) {
+        $page = $this;
+
+        $pageBlocks = Cache::get('pageblocks:'.$page->id, function() use($page) {
+            $value = $page->blocks;
+            Cache::put('pageblocks:'.$page->id, $value, self::CACHE_EXPIRE);
+            return $value;
+        });
+
+        foreach ($pageBlocks as $block) {
             $blocks[$block->title] = $block->render();
         }
 

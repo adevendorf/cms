@@ -9,7 +9,7 @@ class ContentRegister extends OrmModel implements Renderable
 {
     use Render;
 
-    public function render()
+    public function render($options = [])
     {
         return view($this->getTemplate('login', $this->template), [
         ]);

@@ -42,7 +42,9 @@ class ApiController extends CmsController
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request, $id) {
+//        $this->enableDBLog();
         $this->repo->destroy($id);
+//        $this->outputDBLog();
         return true;
     }
 

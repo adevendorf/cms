@@ -9,7 +9,7 @@ class ContentText extends OrmModel implements Renderable
 {
     use Render;
     
-    public function render() 
+    public function render($options = [])
     {
         return view($this->getTemplate('text', $this->template), [
             'attributes' => $this->addStylingToDiv($this, $this->styling),

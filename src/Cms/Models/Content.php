@@ -12,15 +12,18 @@ class Content extends OrmModel implements Renderable
         'Gallery' => \Cms\Models\Content\ContentGallery::class,
         'Image' => \Cms\Models\Content\ContentImage::class,
         'Block' => \Cms\Models\Content\ContentImage::class,
+        'Feed' => \Cms\Models\Content\ContentFeed::class,
         'Form' => \Cms\Models\Content\ContentForm::class,
         'FormField' => \Cms\Models\Content\ContentFormField::class,
         'Register' => \Cms\Models\Content\ContentFormField::class,
         'Login' => \Cms\Models\Content\ContentFormField::class,
         'ListCategories' => \Cms\Models\Content\ContentListCategories::class,
         'LatestPosts' => \Cms\Models\Content\ContentLatestPosts::class,
+        'IconBox' => \Cms\Models\Content\ContentIconBox::class,
+        'ColumnContainer' => \Cms\Models\Content\ContentColumnContainer::class,
     ];
 
-    public function render()
+    public function render($options = [])
     {
         $model = $this->contentClass[ucfirst($this->type)];
         $model = new $model();

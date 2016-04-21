@@ -9,7 +9,7 @@ class ContentFormField extends OrmModel implements Renderable
 {
     use Render;
 
-    public function render($content)
+    public function render($options = [])
     {
 
         return view($this->getTemplate('form-' . strtolower($content->question_type), '_default'), [

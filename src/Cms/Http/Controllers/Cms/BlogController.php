@@ -2,7 +2,9 @@
 namespace Cms\Http\Controllers\Cms;
 
 use Cms\Http\Controllers\Cms\Base\CmsController;
+use Illuminate\Http\Request;
 use CmsRepository;
+use Cache;
 
 
 /**
@@ -11,7 +13,7 @@ use CmsRepository;
  */
 class BlogController extends CmsController
 {
-
+    const CACHE_EXPIRE = 0.5;
     /**
      * @param $year
      * @param $month
@@ -19,9 +21,13 @@ class BlogController extends CmsController
      * @param $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getPost($year, $month, $day, $slug)
+    public function getPost(Request $request, $year, $month, $day, $slug)
     {
-        $route = CmsRepository::get('route')->findBy('url', $slug);
+        $route = Cache::get($request->url(), function() use($request) {
+            $value = CmsRepository::get('route')->findBy('url', $slug);
+            Cache::put($request->url(), $value, self::CACHE_EXPIRE);
+            return $value;
+        });
 
         abort_if(!$route || $route->page->status != 'published', 404, 'Page Not Found');
 
@@ -31,9 +37,26 @@ class BlogController extends CmsController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getIndex()
+    public function getIndex(Request $request)
     {
-        $posts = CmsRepository::get('blog')->findLatestBlogPosts(10);
+        $posts = Cache::get($request->url(), function() use($request) {
+            $value = CmsRepository::get('blog')->findLatestBlogPosts(10);
+
+            $pageArray = $value->map(function($item) {
+                return $item->id;
+            });
+
+            $routes = CmsRepository::get('route')->findForPages($pageArray);
+
+            foreach ($value as $page) {
+                $page->route = $routes->first(function($key, $item) use($page) {
+                    return $item->page_id == $page->id;
+                });
+            }
+
+            Cache::put($request->url(), $value, self::CACHE_EXPIRE);
+            return $value;
+        });
 
         return view('cms.themes.default.blog.blog_index', [
             'posts' => $posts,
@@ -45,14 +68,36 @@ class BlogController extends CmsController
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Cms\Traits\Exception
      */
-    public function getCategory($slug)
+    public function getCategory(Request $request, $slug)
     {
         $posts = [];
-        $category = CmsRepository::get('category')->findBy('slug', $slug);
+
+        $category = Cache::get('blog:category:slug:'.$request->url(), function() use($request, $slug) {
+            $value = CmsRepository::get('category')->findBy('slug', $slug);
+            Cache::put('blog:category:slug:'.$request->url(), $value, self::CACHE_EXPIRE);
+            return $value;
+        });
 
         abort_if(!$category, 404, 'Page Not Found');
 
-        $posts = $CmsRepository::get('blog')->findLatestBlogPosts(10, $category->id);
+        $posts = Cache::get('blog:category:'.$request->url(), function() use($request, $category) {
+            $value =  CmsRepository::get('blog')->findLatestBlogPosts(10, $category->id);
+
+            $pageArray = $value->map(function($item) {
+                return $item->id;
+            });
+
+            $routes = CmsRepository::get('route')->findForPages($pageArray);
+
+            foreach ($value as $page) {
+                $page->route = $routes->first(function($key, $item) use($page) {
+                    return $item->page_id == $page->id;
+                });
+            }
+
+            Cache::put('blog:category:'.$request->url(), $value, self::CACHE_EXPIRE);
+            return $value;
+        });
 
         return view('cms.themes.default.blog.blog_index', [
             'posts' => $posts,

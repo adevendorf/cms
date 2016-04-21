@@ -11,6 +11,7 @@ class Content extends Model  {
     use SoftDeletes;
 
     protected $table = 'contents';
+
     protected $fillable = [
         'block_id',
         'type',
@@ -21,6 +22,7 @@ class Content extends Model  {
         'image_id',
         'template'
     ];
+
     protected $hidden = [
         'site_id',
         'updated_at',

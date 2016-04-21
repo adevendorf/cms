@@ -3,6 +3,7 @@ namespace Cms\Http\Controllers\Cms\Base;
 
 use App\Http\Controllers\Controller;
 use Faker\Factory;
+use DB;
 
 /**
  * Class CmsController
@@ -26,7 +27,7 @@ class CmsController extends Controller
     public function outputDBLog()
     {
         $log = DB::getQueryLog();
-        var_dump($log);
+        dd($log);
     }
 
     /**

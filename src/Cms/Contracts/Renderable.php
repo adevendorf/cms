@@ -10,5 +10,5 @@ interface Renderable
     /**
      * @return mixed
      */
-    public function render();
+    public function render($options);
 }

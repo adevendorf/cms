@@ -5,14 +5,24 @@ use Cms\Models\Content as OrmModel;
 use Cms\Traits\Render;
 use Cms\Contracts\Renderable;
 use CmsRepository;
+use Cache;
 
 class ContentGallery extends OrmModel implements Renderable
 {
     use Render;
 
-    public function render()
+    const CACHE_EXPIRE = 0.5;
+
+    public function render($options = [])
     {
-        $block = CmsRepository::get('block')->findById($this->resource_id);
+        $resourceId = $this->resource_id;
+
+        $block = Cache::get('gallery:'.$resourceId, function() use($resourceId) {
+            $value = CmsRepository::get('block')->findById($this->resource_id);
+            Cache::put('gallery:'.$resourceId, $value, self::CACHE_EXPIRE);
+            return $value;
+        });
+
 
         if (!$block) return '';
 

@@ -9,7 +9,7 @@ class ContentFeed extends OrmModel implements Renderable
 {
     use Render;
 
-    public function render($content, $page, $step = 0)
+    public function render($options = [])
     {
         if (!$content->resource_id) return '';
 
