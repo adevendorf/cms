@@ -1,8 +1,6 @@
 <template>
   <div class="card">
     <content-header type="News Feed"></content-header>
-    <!-- <selector :parent-id="content.id" :options="selectorOptions"></selector> -->
-    <confirm v-on:confirm="removeItem"></confirm>
 
     <div class="card-block" v-if="visible.main">   
       <div v-if="sectionTitle != ''">
@@ -10,43 +8,63 @@
       </div>
       
       <div>
-        <a class="btn btn-primary" @click="openSelector">Select Feed</a>    
+        <a class="btn btn-primary" @click="modalVisible = true">Select Feed</a>    
         <a v-if="sectionTitle != ''" class="btn btn-primary" v-link="{ name: 'newsfeed-edit', params: { id: sectionId }}">Edit Feed</a>  
       </div>
 
       <styling :content="content"></styling>
 
     </div>
+
+    <modal
+      size="medium"
+      footer="true"
+      header="true"
+      :show.sync="modalVisible"
+      >
+      <div slot="header">
+        Select a Feed
+      </div>
+      <div slot="body">
+        <lister 
+          :parent-id="content.id"
+          >
+        </lister>
+      </div>
+      <div slot="footer">
+        <button class="btn btn-default" @click="modalVisible = false">Cancel</button>
+      </div>
+    </modal>
+
   </div>
 </template>
 
 <script>
 import styling from './_styling.vue';
-// import selector from '../feed/selector.vue';
 import contentHeader from './_header.vue';
+import Lister from '../feed/lister.vue';
 
 export default {
 
   props: ['content'],
 
   components: {
-        contentHeader,
+    contentHeader,
     styling,
+    Lister
   },
 
   data() {
     return {
       resource: null,
       id: null,
-      selectorOptions: {
-        parentType: 'section'
-      },
       sectionTitle: '',
       sectionId: '',
       new: false,
       visible: {
         main: true
-      }
+      },
+      modalVisible: false
     }
   },
 
@@ -57,9 +75,6 @@ export default {
       this.showStyling = !this.showStyling;
     },
 
-    openSelector() {
-      this.$broadcast('selector::open');
-    },
 
     saveItem() {
 
@@ -97,8 +112,8 @@ export default {
       this.$broadcast('styler::toggle');
       return false;
     },    
-    'header::confirmRemoval'() {
-      this.$broadcast('confirm::ask');
+    'header::removeContent'() {    
+      this.removeItem();
       return false;
     },
     'blocker::expandAll'() {
@@ -141,7 +156,7 @@ export default {
       this.sectionTitle = data.title;
       this.sectionId = data.id; 
       this.saveItem();
-      $('#modal-selector-' + this.id).modal('hide'); 
+      this.modalVisible = false;
       return false;
     });
  

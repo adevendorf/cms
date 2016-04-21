@@ -1,50 +1,25 @@
 <template>
   <div class="card">
-
-    <confirm v-on:confirm="removeItem"></confirm>
-
-    <div class="card-header">
-      Code
-      <div class="pull-right">
-        <a class="btn btn-xs btn-light" @click="toggleStyling"><i class="fa fa-cog"></i></a>
-        <a class="btn btn-xs btn-light" @click="confirmRemoval"><i class="fa fa-times"></i></a>
-      </div>
-    </div>
-
-    <div class="card-block">
-      <div class="form-group">
-
-          <textarea v-if="editing" v-model="editor" v-bind:id="'textarea_' + content.id"></textarea>
-          <textarea style="display: none" name="data" v-model="content.data"></textarea>
-
-          <div class="alert alert-default text-content-sample" role="alert" v-if="!editing">
-            <div v-html="content.data"></div>
-          </div>
-          
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-info" @click="startEditing" v-if="!editing"><i class="fa fa-pencil"></i> Edit</button> 
-        <button class="btn btn-success" @click="stopEditing" v-if="editing"><i class="fa fa-check"></i> Done</button>
-      </div>
-
-      <div v-if="showStyling">
-        <styling :content="content"></styling>
-      </div>
-    </div>
-
+    <content-header type="Code"></content-header>
+    
+    <div class="card-block" v-if="visible.main">
+      <textarea name="data" v-bind:id="'textarea_' + content.id" v-model="content.data" style="display: none"></textarea>   
+      <styling :content="content"></styling>           
+    </div>    
   </div>
 </template>
 
 <script>
 
 import styling from './_styling.vue';
+import contentHeader from './_header.vue';
 
 export default {
 
   props: ['content'],
 
   components: {
+    contentHeader,
     styling,
   },
 
@@ -55,21 +30,19 @@ export default {
       editor: '',
       editing: false,
       expanded: true,
-      showStyling: false
+      visible: {
+        main: true
+      }
     }
   },
 
   methods: {
 
-    toggleStyling() {
-      this.showStyling = !this.showStyling;
-    },
-
     saveItem(item) {
-      if (this.editing) {
-        this.stopEditing(e, true);
-        return;
-      }
+      // if (this.editing) {
+      //   this.stopEditing(e, true);
+      //   return;
+      // }
 
       if (item) {
         this.resource.update({id: this.id}, item);
@@ -89,23 +62,29 @@ export default {
 
     startEditing() {
       this.editing = true;
-      this.editor = this.content.data;
-      setTimeout(this.createWYSIWYG, 0);
+      setTimeout(this.createWYSIWYG, 100);
     },
 
     createWYSIWYG() {
-      CKEDITOR.replace('textarea_' + this.id);
+      CKEDITOR.replace('textarea_' + this.id, {
+      });
+
+      CKEDITOR.instances['textarea_' + this.id].on('blur', () => {
+         this.content.data = CKEDITOR.instances['textarea_' + this.id].getData();
+         this.saveItem();
+      });
+
+    },
+
+    killWYSIWYG() {
+      CKEDITOR.instances['textarea_' + this.id].destroy();
     },
 
     stopEditing(saveAfter) {     
       this.content.data = CKEDITOR.instances['textarea_' + this.id].getData();
-      this.editing = false;
-      CKEDITOR.instances['textarea_' + this.id].destroy();
+      this.editing = false;      
       this.saveItem();
-    },
-
-    confirmRemoval() {
-      this.$broadcast('confirm::ask');
+      setTimeout(this.killWYSIWYG, 0);
     },
 
     removeItem() {
@@ -116,36 +95,73 @@ export default {
 
   },
 
-  ready() {
+  events: {
 
-    var resource = this.$resource('content{/id}');
-    this.$set('resource', resource);
-    this.$set('id', this.content.id);
+    'header::toggleStyler'() {
+      if (!this.visible.main) {
+        setTimeout(() => { this.visible.main = !this.visible.main; }, 0);
+      }
+      this.$broadcast('styler::toggle');
+      return false;
+    },
 
+    'header::toggleVisible'() {
+      if (this.visible.main) {
+        this.stopEditing();
+        setTimeout(() => { this.visible.main = false; }, 100)
+      } else {
+        this.visible.main = true;
+        this.startEditing();
+      }
 
+      ;
 
-    this.$on('confirm::confirmed', () => {
+      return false;
+    },
+
+    'header::removeContent'() {    
       this.removeItem();
       return false;
-    });
+    },
 
-    this.$on('styler::updated', () => {
+
+    'blocker::expandAll'() {
+      this.visible.main = true;
+      this.startEditing();
+      return false;
+    },
+    'blocker::hideAll'() {
+      this.stopEditing();
+      setTimeout(() => { this.visible.main = false; }, 100)
+      return false;
+    },
+
+    'confirm::confirmed'() {
+      this.removeItem();
+      return false;
+    },
+
+    'styler::updated'() {
       this.saveItem();
       return false;
-    });
-    
+    },
 
-    this.$on('content::save', (item) => {
+    'content::save'(item) {
       if (item && item.id == this.content.id) {
         this.saveItem(item);
         return false;
       }
       this.saveItem();
       return false;
-    }); 
+    }
+  },  
 
 
-
+  ready() {
+    var resource = this.$resource('content{/id}');
+    this.$set('resource', resource);
+    this.$set('id', this.content.id);
+    setTimeout(this.startEditing, 100);
   }
 }
 </script>

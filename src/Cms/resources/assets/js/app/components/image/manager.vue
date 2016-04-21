@@ -76,7 +76,8 @@ export default {
   methods: {
     done() {
       this.$dispatch('image::manager::done');
-    },    
+    }, 
+
     view(which) {
       this.loaded = which;  
       this.visibleModal = true;
@@ -85,7 +86,6 @@ export default {
 
   events: {
     'image::selected'() {
-      console.log('selected2')
       this.visibleModal = false;
       return true;
     },

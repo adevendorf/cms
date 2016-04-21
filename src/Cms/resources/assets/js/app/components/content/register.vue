@@ -1,7 +1,6 @@
 <template>
   <div class="card">
     <content-header type="User Registration Form"></content-header>
-    <confirm v-on:confirm="removeItem"></confirm>
 
     <div class="card-block" v-if="visible.main">   
       <div v-if="sectionTitle != ''">
@@ -83,8 +82,8 @@ export default {
       this.$broadcast('styler::toggle');
       return false;
     },    
-    'header::confirmRemoval'() {
-      this.$broadcast('confirm::ask');
+    'header::removeContent'() {    
+      this.removeItem();
       return false;
     },
     'blocker::expandAll'() {

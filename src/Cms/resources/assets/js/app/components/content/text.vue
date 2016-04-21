@@ -1,8 +1,7 @@
 <template>
   <div class="card">
     <content-header type="Rich Text"></content-header>
-    <confirm v-on:confirm="removeItem"></confirm>
-
+    
     <div class="card-block" v-if="visible.main">
       <textarea name="data" v-bind:id="'textarea_' + content.id" v-model="content.data" style="display: none"></textarea>   
       <styling :content="content"></styling>           
@@ -67,9 +66,7 @@ export default {
     },
 
     createWYSIWYG() {
-      // CKEDITOR.plugins.addExternal( 'videoembed', '/js/vendor/ck_plugins/videoembed/', 'plugin.js' );
       CKEDITOR.replace('textarea_' + this.id, {
-        // extraPlugins: 'videoembed'
       });
 
       CKEDITOR.instances['textarea_' + this.id].on('blur', () => {
@@ -122,8 +119,8 @@ export default {
       return false;
     },
 
-    'header::confirmRemoval'() {
-      this.$broadcast('confirm::ask');
+    'header::removeContent'() {    
+      this.removeItem();
       return false;
     },
 

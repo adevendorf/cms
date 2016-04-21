@@ -28,7 +28,7 @@
       <tbody>
         <tr v-for="item in items.data">
           <td>
-            <a v-link="{ name: 'form-edit', params: { id: item.id }}">{{ item.title ? item.title : '-- no title --' }}/a>
+            <a v-link="{ name: 'form-edit', params: { id: item.id }}">{{ item.title ? item.title : '-- no title --' }}</a>
           </td>
           <td class="text-center">
             <a class="btn btn-success" v-link="{ name: 'formsubmission-index', params: { id: item. id }}">Results</a>

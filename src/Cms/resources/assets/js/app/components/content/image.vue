@@ -1,7 +1,6 @@
 <template>
   <div class="card">
     <content-header type="Image"></content-header>
-    <confirm v-on:confirm="removeItem"></confirm>
 
     <div class="card-block" v-if="visible.main">
       <div class="row">
@@ -66,6 +65,7 @@ export default {
       this.resource.delete({id: this.id}).then((response) => {
         this.$dispatch('block::content::remove', this.id);
       });
+      return false;
     },
 
     updateCache() {
@@ -90,8 +90,8 @@ export default {
       this.$broadcast('styler::toggle');
       return false;
     },    
-    'header::confirmRemoval'() {
-      this.$broadcast('confirm::ask');
+    'header::removeContent'() {    
+      this.removeItem();
       return false;
     },
     'blocker::expandAll'() {

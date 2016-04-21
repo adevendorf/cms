@@ -19,7 +19,6 @@
       <div class="row">
         <div class="col-sm-12">
           <button class="btn btn-primary" @click="showSidePanel('settings', 'Settings')">Settings</button>
-          <button class="btn btn-primary" @click="showSidePanel('seo', 'SEO')">SEO</button>
           <button class="btn btn-primary" @click="showSidePanel('visual', 'Visual')">Visual</button>
           <button class="btn btn-primary" @click="showSidePanel('social', 'Social')">Social</button>
           <button class="btn btn-primary" @click="showSidePanel('seo', 'SEO')">SEO</button>

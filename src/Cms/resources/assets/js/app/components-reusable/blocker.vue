@@ -57,6 +57,7 @@
         <a @click="addToEnd('Code')" v-if="contentTypes.indexOf('text') > -1" class="dropdown-item"><i class="fa fa-at"></i> Markdown</a>
         <a @click="addToEnd('Code')" v-if="contentTypes.indexOf('text') > -1" class="dropdown-item"><i class="fa fa-code"></i> Code</a>
         <a @click="addToEnd('Code')" v-if="contentTypes.indexOf('text') > -1" class="dropdown-item"><i class="fa fa-sticky-note-o"></i> Free Form</a>
+        <a @click="addToEnd('IconBox')" v-if="contentTypes.indexOf('text') > -1" class="dropdown-item"><i class="fa fa-star"></i> IconBox</a>
       </div>
     </div>
 

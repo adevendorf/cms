@@ -13,17 +13,17 @@
         class="btn btn-primary" 
         @click="openManager"
         >
-        Edit Image
+        Edit
       </a>
     </span>
-    <button 
+    <a 
       v-show="!haveImage" 
       class="btn btn-primary" 
       @click="openManager"
       >
-      Select Image
-    </button>
-    <button v-show="haveImage" class="btn btn-danger" @click="confirmRemoval">Remove</button>
+      Select
+    </a>
+    <a v-show="haveImage" class="btn btn-danger" @click="confirmRemoval">Remove</a>
   </div>
 
 
@@ -73,10 +73,13 @@ export default {
       this.resource.delete({id: this.parent.image.id}).then(() => {
         this.parent.image_id = null;
         this.parent.image = null;
+        this.$dispatch('image::set');
       });
+      return false;
     },
 
     openManager() {
+      console.log(this.parent.image, this.parent.image_id)
       this.visible = true;
       this.showModal = true;
       this.$broadcast('image::main::getsizes');
@@ -102,7 +105,6 @@ export default {
     },
 
     'image::selected'(asset) {
-      // console.log('selected', asset)
       this.confirmObject();
       this.$set('parent.image.asset_id', asset.id);
       this.$set('parent.image.asset', asset);

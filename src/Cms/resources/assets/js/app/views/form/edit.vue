@@ -86,9 +86,9 @@
                     <div v-if="item.redirect_page && item.redirect_page.id">
                       {{item.redirect_page.title}}
                       &nbsp;
-                      <a v-link="{ name: 'page-edit', params: { id: item.redirect_page.id }}">View Page <i class="fa fa-caret-right"></i></a>                      
+                      <button class="btn btn-danger" @click="removeRedirectPage">Remove</button>                      
                     </div> 
-                    <button class="btn btn-primary" @click="openSelector">Select Page</button>
+                    <button class="btn btn-primary" @click="modalVisible = true">Select Page</button>
                   </div>
                 </div>  
 
@@ -98,7 +98,24 @@
                   </div>
                 </div> 
 
-                <selector :parent-id="item.id" :options="selectorOptions"></selector>
+  
+                <modal
+                  size="medium"
+                  footer="true"
+                  header="true"
+                  :show.sync="modalVisible"
+                  >
+                  <div slot="header">
+                    Select a Page
+                  </div>
+                  <div slot="body">
+                    <lister>
+                    </lister>
+                  </div>
+                  <div slot="footer">
+                    <button class="btn btn-default" @click="modalVisible = false">Cancel</button>
+                  </div>
+                </modal>
               </div>
 
             </div>             
@@ -115,8 +132,8 @@
 </template>
 
 <script>
-import steps from '../../components/formsteps/steps.vue';
-import selector from '../../components/page/selector.vue';
+import Steps from '../../components/formsteps/steps.vue';
+import Lister from '../../components/page/lister.vue';
 
 export default {
   data() {
@@ -125,23 +142,21 @@ export default {
       id: null,
       item: null,
       loadingNewContent: false,
-      dropSpotsActive: false,
-      validTarget: false,
-      selectorOptions: {
-        parentType: 'form'
-      }
+      modalVisible: false
     }
   },
 
   components: {
-    steps,
-    selector
+    Steps,
+    Lister
   },
 
   methods: {
 
-    openSelector() {
-      this.$broadcast('selector::open');
+    removeRedirectPage() {
+      this.item.redirect_page_id = null;
+      this.item.redirect_page = false;
+      this.saveItem();
     },
 
 
@@ -185,7 +200,7 @@ export default {
       this.item.redirect_page.id = data.id;
       this.item.redirect_page.title = data.title;
       this.saveItem();
-      $('#modal-selector-page' + this.item.id).modal('hide'); 
+      this.modalVisible = false; 
       return false;
     });
 

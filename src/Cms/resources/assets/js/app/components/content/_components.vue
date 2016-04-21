@@ -20,7 +20,8 @@ export default {
     'content-BlogPageBreak': require('../../components/prebuilt/blogpagebreak.vue'),
     'content-ListCategories': require('../../components/prebuilt/listcategories.vue'),
     'content-Register': require('../../components/content/register.vue'),
-    'content-Login': require('../../components/content/login.vue')
+    'content-Login': require('../../components/content/login.vue'),
+    'content-IconBox': require('../../components/content/iconbox.vue')
   },
 
   computed: {

@@ -1,8 +1,7 @@
 <template>
   <div class="card">
     <content-header type="Block"></content-header>
-    <confirm v-on:confirm="removeItem"></confirm>
-
+    
     <div class="card-block" v-if="visible.main">   
       <h5 v-if="blockTitle != ''">
         {{ blockTitle }}
@@ -11,7 +10,7 @@
       <div>
         <a class="btn btn-primary" @click="openSelector">Select Block</a>    
         <a v-if="blockTitle != ''" class="btn btn-primary" v-link="{ name: 'block-edit', params: { id: blockId }}">Edit Block</a>  
-        <!-- <a v-show="blockTitle != ''" class="btn btn-primary" @click="editModalVisible = true">Edit Block</a>  -->
+        <a v-show="blockTitle != ''" class="btn btn-primary" @click="editModalVisible = true">Edit Block On Page</a> 
       </div>
 
       <styling :content="content"></styling>
@@ -38,7 +37,7 @@
       </div>
     </modal>
 
-    <!-- <modal
+    <modal
       size="large"
       footer="true"
       header="true"
@@ -48,15 +47,15 @@
         Edit a Block
       </div>
       <div slot="body">
-         <block-edit 
-          :block-id="id"
+         <block-edit
+          :block-id="blockId"
           >
         </block-edit> 
       </div>
       <div slot="footer">
         <button class="btn btn-default" @click="editModalVisible = false">Close</button>
       </div>
-    </modal> -->
+    </modal>
   </div>
 </template>
 
@@ -151,8 +150,8 @@ export default {
       this.$broadcast('styler::toggle');
       return false;
     },    
-    'header::confirmRemoval'() {
-      this.$broadcast('confirm::ask');
+    'header::removeContent'() {    
+      this.removeItem();
       return false;
     },
     'blocker::expandAll'() {

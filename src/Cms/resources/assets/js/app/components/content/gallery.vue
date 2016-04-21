@@ -1,8 +1,6 @@
 <template>
   <div class="card">
     <content-header type="Gallery"></content-header>
-    <confirm v-on:confirm="removeItem"></confirm>
-    <selector :parent-id="content.id" :options="selectorOptions"></selector>
 
     <div class="card-block" v-if="visible.main">
       <div v-if="galleryTitle">
@@ -16,13 +14,33 @@
      
       <styling :content="content"></styling>
 
+      <modal
+        size="medium"
+        footer="true"
+        header="true"
+        :show.sync="modalVisible"
+        >
+        <div slot="header">
+          Select a Gallery
+        </div>
+        <div slot="body">
+          <lister 
+            :parent-id="content.id"
+            >
+          </lister>
+        </div>
+        <div slot="footer">
+          <button class="btn btn-default" @click="modalVisible = false">Cancel</button>
+        </div>
+      </modal>
+
     </div>   
   </div>
 </template>
 
 <script>
 import styling from './_styling.vue';
-import selector from '../gallery/selector.vue';
+import Lister from '../gallery/lister.vue';
 import contentHeader from './_header.vue';
 
 export default {
@@ -31,21 +49,18 @@ export default {
 
   components: {
     styling,
-    selector,
-    contentHeader
+    contentHeader,
+    Lister
   },
 
   data() {
     return {
       resource: null,
       id: null,
-      selectorOptions: {
-        allowUpload: true,
-        parentType: 'gallery'
-      },
       galleryId: null,
       galleryTitle: null,
       images: [],
+      modalVisible: false,
       visible: {
         main: true
       }
@@ -60,7 +75,7 @@ export default {
     },    
 
     openSelector() {
-      this.$broadcast('selector::open');
+      this.modalVisible = true;
     },
 
     saveItem(item) {
@@ -106,8 +121,8 @@ export default {
       this.visible.main = !this.visible.main;
       return false;
     },
-    'header::confirmRemoval'() {
-      this.$broadcast('confirm::ask');
+    'header::removeContent'() {    
+      this.removeItem();
       return false;
     },
     'blocker::expandAll'() {
@@ -149,7 +164,7 @@ export default {
       this.galleryTitle = data.title;
       this.galleryId = data.id;
       this.saveItem();
-      $('#modal-selector-' + this.id).modal('hide'); 
+      this.modalVisible = false;
       return false;
     });
  

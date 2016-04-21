@@ -1,5 +1,6 @@
 <template>
   <div class="sidepanel-mask" v-show="show" transition="sidepanel">
+      <div class="sidepanel-click" @click="hide"></div>
       <div class="sidepanel-wrapper">
         <div v-bind:class="'sidepanel-container sidepanel-' + size + ' sidepanel-' + side">
 

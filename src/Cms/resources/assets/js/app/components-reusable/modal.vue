@@ -1,5 +1,6 @@
 <template>
   <div class="modal-mask" v-show="show" transition="modal">
+      <div class="modal-click" @click="hide"></div>
       <div class="modal-wrapper">
         <div v-bind:class="'modal-container modal-' + size">
 

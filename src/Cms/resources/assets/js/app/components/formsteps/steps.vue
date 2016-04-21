@@ -12,7 +12,7 @@
 
       <div class="tab-content"> 
         <div v-bind:class="'tab-pane active'" v-bind:id="'tab-section-' + activeTab">
-          <former :block.sync="form.blocks[activeTab]" :content-types="contentTypes"></former>
+          <!-- <former :block.sync="form.blocks[activeTab]" :content-types="contentTypes"></former> -->
         </div>
       </div>
     </span>  

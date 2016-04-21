@@ -3,15 +3,7 @@
 
     <div class="col-sm-12">
 
-<!--       <div class="row" v-if="visible=='cropper'">
-        <div class="col-sm-12">
-          <button @click="showMain" class="btn btn-default"><i class="fa fa-caret-left"></i> Show Crop Sizes</button>
-        </div>
-        <hr />
-      </div> -->
-
-
-      <div class="row" v-if="parent.image && !parent.image.asset_id && visible=='main'">
+      <div class="row" v-if="!parent.image_id">
         <no-image 
           v-on:select="manager('lister')" 
           v-on:upload="manager('uploader')"
@@ -20,7 +12,7 @@
       </div>
 
 
-      <div class="row" v-if="parent.image && parent.image.asset_id && visible=='main'">
+      <div class="row" v-if="parent.image">
         <div v-for="crop in parent.image.crops" class="col-sm-12 main-preview {{ currentCrop == crop.name ? 'selected' : '' }}">
 
           <div class="row">
@@ -45,7 +37,7 @@
 
       <div class="row">
 
-        <div v-if="!showCroppings" class="col-sm-12">             
+        <div v-if="!showCroppings && parent.image" class="col-sm-12">             
           <a class="btn btn-primary" @click="showCropOptions">Add Crop</a>
         </div>
 
@@ -84,15 +76,6 @@
               >
             </cropper>
         </div>
-<!--         <div slot="footer">
-          <button class="btn btn-success" @click="endCrop">Save</button>
-          <button 
-            class="btn btn-default" 
-            @click="cropperVisible = false"
-            >
-            Cancel
-          </button>
-        </div> -->
       </modal>
       </div>
 
@@ -119,7 +102,6 @@ export default {
     return {
       cropperVisible: false,
       showCroppings: false,
-      visible: 'main',
       cachebust: Math.random().toString(36).substring(7),
       managedCropOptions: [],
       selectedCropSize: '',
@@ -133,9 +115,6 @@ export default {
 
   methods: {
 
-    // endCrop() {
-    //   this.$broadcast('cropper::end')
-    // },
 
     manager(which) {
       this.$dispatch('image::manager::view', which);
@@ -145,12 +124,10 @@ export default {
     showCropper(item) {
       window._CROP = null;
       this.selectedCrop = item;      
-      // this.visible = 'cropper';
+
       this.cropperVisible = true;
     },
-    showMain() {
-      this.visible = 'main';
-    },
+
 
     showCropOptions() {
       this.showCroppings = true;
@@ -176,8 +153,6 @@ export default {
         }
 
         this.selectedCropSize = this.items.data[0].name;
-
-        // this.setSize();
 
       });
     },
