@@ -42,9 +42,11 @@ class Repository
     {
         return $this->all();
     }
-    public function findById($id)
+    
+
+    public function findById($id, $full = false)
     {
-        return $this->findBy('id', $id);
+        return $this->findBy('id', $id, $full);
     }
 
     public function remember($minutes = 30)

@@ -150,6 +150,11 @@ export default {
     'parent::save'() {
       this.saveItem();
       return false;
+    },
+
+    'image::set'() {
+      this.saveItem();
+      return false;
     }
   },
 

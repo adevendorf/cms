@@ -1,7 +1,6 @@
 <?php
 namespace Cms\Http\Controllers\Cms\Api;
 
-use Cms\Managers\ImageManager;
 use Cms\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
@@ -14,16 +13,14 @@ use Cms\Http\Controllers\Cms\Base\ApiController;
 class UserController extends ApiController
 {
 
-    protected $imageManager;
     /**
      * UserController constructor.
      * @param UserRepository $repo
      * @param ImageManager $imageManager
      */
-    public function __construct(UserRepository $repo,  ImageManager $imageManager)
+    public function __construct(UserRepository $repo)
     {
         $this->repo = $repo;
-        $this->imageManager = $imageManager;
     }
 
     /**

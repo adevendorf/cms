@@ -103,7 +103,7 @@ export default {
       }
 
       this.routeResource.update({id: this.page.route.id}, data).then((response) => {
-
+        this.page.route.url = response.data.url;
       });
     },
 

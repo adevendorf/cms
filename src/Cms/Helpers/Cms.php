@@ -60,4 +60,7 @@ class Cms
         $carbon = new Carbon($date);
         return $carbon->toDayDateTimeString();
     }
+
+
+
 }

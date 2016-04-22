@@ -34,14 +34,14 @@
 
   <ul v-if="block.id" v-bind:id="'blocker-sortable-' + block.id" class="will-sort">
 
-    <li v-for="content in block.content" v-bind:data-id="content.id">
+    <li v-for="content in items" v-bind:data-id="content.id">
         <div 
           v-if="content.id" 
           class="handle ">         
             <div class="handle-holder"></div>
             <i class="fa fa-arrows"></i>
         </div>
-        <contentcomponents :content.sync="content"></contentcomponents>
+        <contentcomponents :content="content"></contentcomponents>
     </li>
 
   </ul>
@@ -117,9 +117,7 @@ export default {
   data() {
     return {
       resource: null,
-      items: {
-        data: []
-      },
+      items: [],
       drake: null,
     }
   }, 
@@ -150,13 +148,13 @@ export default {
       };
 
       this.resource.save(newItem).then((response) => {    
-        this.block.content.splice(pos, 0, response.data);
+        this.items.splice(pos, 0, response.data);
         setTimeout(this.saveOrder, 1000);
       });
     },
 
     addToEnd(type) {
-      this.addItem(type, this.block.content.length);
+      this.addItem(type, this.items.length);
     },
 
     addAtIndex(type, pos) {
@@ -167,7 +165,7 @@ export default {
       var index = 0;
       _.forEach($('#blocker-sortable-' + this.block.id + ' li'), (item) => {
         var id = parseInt($(item).attr('data-id'));        
-        var obj = _.findWhere(this.block.content, {id: id});
+        var obj = _.findWhere(this.items, {id: id});
         obj.order = index;
         index++;
       });
@@ -179,15 +177,14 @@ export default {
 
       this.setOrder();
 
-      this.block.content.forEach((val) => {
+      this.items.forEach((val) => {
         order.push({
           id: val.id,
           order: val.order
         });
       })
 
-      this.$http.post('content/order', {items: order}).then((response) => {
-      });
+      this.$http.post('content/order', {items: order}).then((response) => {});
     },
 
     saveItem() {  
@@ -209,8 +206,12 @@ export default {
       var blockData = {
         block_id: this.block.id
       };
+
       this.resource.get(blockData).then((response) => {
-        this.block.content = response.data;       
+        this.items = response.data;
+
+        setTimeout(this.setUpDragging, 1000);
+       
       }); 
     },
 
@@ -270,14 +271,9 @@ export default {
     var resource = this.$resource('content{/id}');
     this.$set('resource', resource);
 
-    if (this.block.content) this.setOrder();
 
-    if (!this.block.content) {
-      this.block.content = [];
-    }
-
-    setTimeout(this.setUpDragging, 1000);
-
+    this.getItems();
+  
   }  
 }
 </script>

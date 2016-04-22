@@ -7,12 +7,12 @@ class User extends OrmModel
 {
     public function isAdmin()
     {
-        return $this->user_level == 'ROLE_ADMIN';
+        return $this->user_level == 'cms_admin' || $this->user_level == 'cms_super';
     }
 
     public function isSuperAdmin()
     {
-        return $this->user_level == 'ROLE_SUPER_ADMIN';
+        return $this->user_level == 'cms_super';
     }
 }
 

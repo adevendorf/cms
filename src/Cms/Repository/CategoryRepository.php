@@ -43,7 +43,12 @@ class CategoryRepository extends Repository
 
         $this->count = $request->input('count') ? $request->input('count') : $this->count;
 
-        return $items->paginate($this->count);
+        if ($request->input('count')) {
+            $this->count = $request->input('count') ? $request->input('count') : $this->count;
+            return $items->paginate($this->count);
+        }
+
+        return $items->get();;
     }
 
     /**

@@ -55,9 +55,7 @@
     <thead>
       <tr>
         <th></th>
-        <th>Title</th>
-        <th>Section</th>
-        <th>Category</th>        
+        <th>Title</th> 
         <th>Last Edit</th>
         <th></th>
       </tr>
@@ -73,8 +71,6 @@
           <a v-link="{ name: 'page-edit', params: { id: item.id }}">{{ item.title }}</a>
           <div class="small">{{ path }}{{ item.dop + '/' }}{{ item.slug }} </div>
         </td>
-        <td>{{ item.section ? item.section.name : '-' }}</td>
-        <td class="text-center">{{ item.category.name }}</td>
         <td><ago :timestamp="item.updated_at"></ago></td>
 
         <td class="text-xs-right">
@@ -177,6 +173,7 @@ export default {
       var options = {
         type: 'blog',
         page: (pageNumber ? parseInt(pageNumber) : this.items.current_page),
+        count: 50
       };
       if (this.filter.status !== '') options.status = this.filter.status;
       if (this.filter.title !== '') options.title = this.filter.title;

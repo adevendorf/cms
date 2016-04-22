@@ -24,9 +24,12 @@ class ExtensionRepository extends Repository
             $items = $items->whereKey($request->input('key'));
         }
 
-        $this->count = $request->input('count') ? $request->input('count') : $this->count;
+        if ($request->input('count')) {
+            $this->count = $request->input('count') ? $request->input('count') : $this->count;
+            return $items->paginate($this->count);
+        }
 
-        return $items->paginate($this->count);
+        return $items->get();;
     }
 
     public function findKeyInType($key, $type)

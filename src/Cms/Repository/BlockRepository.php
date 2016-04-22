@@ -56,16 +56,14 @@ class BlockRepository extends Repository
      */
     public function paginate($request)
     {
-//        DB::enableQueryLog();
-
         $blocks = Block::orderBy('id', 'asc');
 
         $blocks = $blocks->where('type', $this->blockType);
+        
 
         $this->count = $request->input('count') ? $request->input('count') : $this->count;
 
-        return$blocks->paginate($this->count);
-//        dd(DB::getQueryLog());
+        return $blocks->paginate($this->count);
     }
 
     /**
@@ -73,20 +71,26 @@ class BlockRepository extends Repository
      * @return Block
      * @throws \Exception
      */
-    public function findBy($column, $value)
+    public function findBy($column, $value, $full = false)
     {
-        return Block::with(
+        $item = Block::with(
                 'image',
                 'image.asset',
-                'image.crops',
+                'image.crops'
+        );
+
+        if ($full) {
+            $item = $item->with(
                 'content',
                 'content.resource',
                 'content.image',
                 'content.image.asset',
                 'content.image.crops'
-            )
-            ->where($column, $value)
-            ->firstOrFail();
+            );
+        }
+        $item = $item->where($column, $value)->firstOrFail();
+
+        return $item;
     }
 
     /**

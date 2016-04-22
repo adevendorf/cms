@@ -108,7 +108,7 @@ export default {
     },
 
     addItem() {
-      this.resource.save({type:'gallery'}).then((response) => {
+      this.resource.save({type:'gallery', title: 'New Gallery'}).then((response) => {
          this.$router.go({name: 'gallery-edit', params: {id: response.data.id} });
       });
     }

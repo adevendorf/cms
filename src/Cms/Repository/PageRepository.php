@@ -29,7 +29,6 @@ class PageRepository extends Repository
 
         $items = $request->input('type') ? $items->where('type', $request->input('type')) : $items->where('type', 'page');
 
-//        $items = $request->input('title') ? $items->whereRaw("MATCH(title) AGAINST(? IN BOOLEAN MODE)", [$request->input('title')]) : $items;
         $items = $request->input('title') ? $items->where('title', 'LIKE', '%'.$request->input('title').'%') : $items;
 
         $items = $request->input('status') ? $items->where('status', $request->input('status')) : $items;
@@ -37,8 +36,6 @@ class PageRepository extends Repository
         $items = $request->input('section_id') ? $items->where('section_id', $request->input('section_id')) : $items;
 
         $items = $request->input('category_id') ? $items->where('category_id', $request->input('category_id')) : $items;
-
-        $items = $request->input('type') == 'blog' ? $items->with('category') : $items;
 
         $items = (!$request->input('order_by') || $request->input('order_by') == 'last_edit') ? $items->orderBy('updated_at', 'DESC') : $items;
 
@@ -49,28 +46,28 @@ class PageRepository extends Repository
         $items = $request->input('order_by') == 'created_at' ? $items->orderBy('created_at', 'ASC') : $items;
 
         $items = $items->with(
-            'route',
-            'section'
-        )->paginate($this->count);
+            'route'
+//            'section'
+        );
 
+        if ($request->input('count')) {
+            $this->count = $request->input('count') ? $request->input('count') : $this->count;
+            return $items->paginate($this->count);
+        }
 
-////        if ($request->input('fields')) {
-//            $items = $this->limitToFields($items, $request->input('fields'));
-////        }
-
-        return $items;
+        return $items->get();;
     }
 
     public function findBy($column, $value)
     {
         $page = Page::with(
-                'blocks',
-                'route',
+//                'blocks',
+//                'route',
                 'image',
                 'image.crops',
-                'image.asset',
-                'author',
-                'section'
+                'image.asset'
+//                'author',
+//                'section'
             )
             ->where($column, $value)
             ->firstOrFail();
@@ -102,15 +99,6 @@ class PageRepository extends Repository
         return true;
     }
 
-//    public function findExistingSlug($id, $slug, $sectionId)
-//    {
-//        $page = Page::where('slug', $slug)
-//            ->where('section_id', $sectionId)
-//            ->where('id', '!=', $id)
-//            ->get();
-//
-//        return $page;
-//    }
 
     public function publishScheduled()
     {

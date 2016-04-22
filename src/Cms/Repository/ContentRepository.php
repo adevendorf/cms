@@ -47,4 +47,19 @@ class ContentRepository extends Repository
             ]);
         return true;
     }
+
+    public function paginate($request)
+    {
+        $items = Content::with('image', 'image.crops', 'image.asset');
+
+        foreach($request->all() as $key => $val) {
+            if ($key != 'count') $items = $items->where($key, $val);
+        }
+
+        if ($request->input('count')) {
+            $this->count = $request->input('count') ? $request->input('count') : $this->count;
+            return $items->paginate($this->count);
+        }
+        return $items->get();
+    }
 }

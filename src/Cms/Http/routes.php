@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => '_debugbar', 'middleware' => ['web', 'auth']], function() {
+Route::group(['prefix' => '_debugbar', 'middleware' => ['web']], function() {
     Route::get('assets/stylesheets', [
         'as' => 'debugbar-css',
         'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@css'
@@ -18,11 +18,15 @@ Route::group(['prefix' => '_debugbar', 'middleware' => ['web', 'auth']], functio
 });
 
 
+Route::group(['prefix' => 'admin', 'middleware' => ['tenant', 'web', 'auth']], function () {
+    Route::get('/', '\Cms\Http\Controllers\Cms\AdminController@index');
+    Route::get('/image-by-id/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImageById');
+    Route::get('/img-preview/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImagePreview');
+    Route::get('/img-preview-lg/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImagePreviewLarge');
+});
 
 
-
-
-Route::group(['prefix' => 'api/v1', 'middleware' => ['tenant', 'web', 'auth', 'admin']], function () {
+Route::group(['prefix' => 'api/v1', 'middleware' => ['tenant', 'web', 'admin']], function () {
 
     Route::get('dashboard', '\Cms\Http\Controllers\Cms\Api\DashboardController@index');
     Route::resource('route', '\Cms\Http\Controllers\Cms\Api\RouteController', ['except' => ['create', 'edit']]);
@@ -78,20 +82,11 @@ Route::group(['middleware' => ['tenant', 'web', 'api']], function () {
 
 Route::group(['middleware' => ['tenant', 'web']], function () {
 
-    Route::group(['middleware' => ['auth', 'admin']], function () {
-        Route::get('/admin', '\Cms\Http\Controllers\Cms\AdminController@index');
-        Route::get('/admin/image-by-id/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImageById');
-        Route::get('/admin/img-preview/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImagePreview');
-        Route::get('/admin/img-preview-lg/{id}', '\Cms\Http\Controllers\Cms\ImageController@showImagePreviewLarge');
-    });
-
     Route::post('submit/{id}', '\Cms\Http\Controllers\Cms\SubmitController@submit');
 
     Route::get(config('cms.blog_path'), '\Cms\Http\Controllers\Cms\BlogController@getIndex');
     Route::get(config('cms.blog_path').'{category}', '\Cms\Http\Controllers\Cms\BlogController@getCategory');
     Route::get(config('cms.blog_path').'{id}/{slug}', '\Cms\Http\Controllers\Cms\BlogController@getPost');
-
-
 
     Route::get('/sample', '\Cms\Http\Controllers\SampleController@getSamplePage');
 

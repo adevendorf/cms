@@ -114,7 +114,8 @@ export default {
 
     getItems(pageNumber) {
       var options = {
-        page: pageNumber ? pageNumber : 1
+        page: pageNumber ? pageNumber : 1,
+        count: 50
       };
 
       this.resource.get(options).then((response) => {

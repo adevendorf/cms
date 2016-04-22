@@ -25,7 +25,6 @@ class BlockController extends ApiController
     /**
      * BlockController constructor.
      * @param BlockRepository $repo
-     * @param ImageManager $imageManager
      */
     public function __construct(BlockRepository $repo)
     {

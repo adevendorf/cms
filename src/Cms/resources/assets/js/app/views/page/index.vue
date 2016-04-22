@@ -64,7 +64,7 @@
         </td>          
         <td>
           <a v-link="{ name: 'page-edit', params: { id: item.id }}">{{ item.title }}</a>
-          <div class="small">/{{ item.route.url }}</div>
+          <div class="small" v-show="item.status == 'published'"><a href="/{{ item.route.url }}" target="_blank">/{{ item.route.url }}</a></div>
         </td>
         <td>{{ item.section ? item.section.name : '-' }}</td>
         <td><ago :timestamp="item.updated_at"></ago></td>
@@ -177,7 +177,8 @@ export default {
       var options = {
         type: 'page',
         page: (pageNumber ? parseInt(pageNumber) : this.items.current_page),
-        order_by: this.orderby
+        order_by: this.orderby,
+        count: 50
       };
       if (this.filter.status !== '') options.status = this.filter.status;
       if (this.filter.title !== '') options.title = this.filter.title;

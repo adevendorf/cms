@@ -40,9 +40,12 @@ class SectionRepository extends Repository
 
 //        $items = $request->input('group') ? $items->where('group', $request->input('group')) : $items;
 
-        $this->count = $request->input('count') ? $request->input('count') : $this->count;
+        if ($request->input('count')) {
+            $this->count = $request->input('count') ? $request->input('count') : $this->count;
+            return $items->paginate($this->count);
+        }
 
-        return $items->paginate($this->count);
+        return $items->get();;
     }
 
     /**
