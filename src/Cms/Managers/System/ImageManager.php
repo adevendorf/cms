@@ -57,7 +57,7 @@ class ImageManager
 
     public static function updateCrops($item, $crops)
     {
-        DB::transaction(function () use($item, $crops) {
+        DB::transaction(function () use ($item, $crops) {
 
             Crop::where('image_id', $item->id)->delete();
 

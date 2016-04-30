@@ -25,7 +25,7 @@ class ContentListCategories extends OrmModel implements Renderable
             $count = intval($json->count);
         }
 
-        $list = Cache::get('content_list_categories:'.$count, function() use($count) {
+        $list = Cache::get('content_list_categories:'.$count, function () use ($count) {
             $value = CmsRepository::get('category')->findCategoriesByGroup('blog', $count);
             Cache::put('content_list_categories:'.$count, $value, self::CACHE_EXPIRE);
             return $value;

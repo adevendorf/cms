@@ -32,7 +32,7 @@ class Page extends OrmModel implements Renderable
 
         $page = $this;
 
-        $pageBlocks = Cache::get('pageblocks:'.$page->id, function() use($page) {
+        $pageBlocks = Cache::get('pageblocks:'.$page->id, function () use ($page) {
             $value = $page->blocks;
             Cache::put('pageblocks:'.$page->id, $value, self::CACHE_EXPIRE);
             return $value;
@@ -69,9 +69,12 @@ class Page extends OrmModel implements Renderable
 
     public function fullpath()
     {
-        if ($this->type == 'page') return '/' . $this->slug;
+        if ($this->type == 'page') {
+            return '/' . $this->slug;
+        }
 
         $path = '/' . config('cms.blog_path') . '/' . $this->category->slug . '/' . $this->slug;
+        
         return $path;
     }
     

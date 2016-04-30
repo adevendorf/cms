@@ -17,7 +17,7 @@ class ContentImage extends OrmModel implements Renderable
     {
         if (!isset($options['image'])) {
             $imageId = $this->image_id;
-            $image = Cache::get('image:'.$imageId, function() use($imageId) {
+            $image = Cache::get('image:'.$imageId, function () use ($imageId) {
                 $value = CmsRepository::get('image')->findBy('id', $imageId);
                 Cache::put('image:'.$imageId, $value, self::CACHE_EXPIRE);
                 return $value;

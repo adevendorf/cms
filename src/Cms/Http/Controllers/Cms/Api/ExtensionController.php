@@ -6,10 +6,6 @@ use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Repository\ExtensionRepository;
 use Cms\Models\Extension;
 
-/**
- * Class ExtensionController
- * @package Cms\Http\Controllers\Cms\Api
- */
 class ExtensionController extends ApiController
 {
 

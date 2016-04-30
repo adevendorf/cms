@@ -5,10 +5,6 @@ use Cms\Http\Controllers\Cms\Base\CmsController;
 use Cms\Managers\UserManager;
 use Illuminate\Http\Request;
 
-/**
- * Class AdminController
- * @package Cms\Http\Controllers\Cms
- */
 class AdminController extends CmsController
 {
 

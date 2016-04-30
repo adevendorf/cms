@@ -17,14 +17,16 @@ class ContentGallery extends OrmModel implements Renderable
     {
         $resourceId = $this->resource_id;
 
-        $block = Cache::get('gallery:'.$resourceId, function() use($resourceId) {
+        $block = Cache::get('gallery:'.$resourceId, function () use ($resourceId) {
             $value = CmsRepository::get('block')->findById($this->resource_id);
             Cache::put('gallery:'.$resourceId, $value, self::CACHE_EXPIRE);
             return $value;
         });
 
 
-        if (!$block) return '';
+        if (!$block) {
+            return '';
+        }
 
         $contents = [];
 

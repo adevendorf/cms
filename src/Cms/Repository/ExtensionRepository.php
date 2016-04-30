@@ -4,6 +4,7 @@ namespace Cms\Repository;
 use Cms\Repository\Base\Repository;
 use Cms\Models\Extension;
 use Config;
+
 class ExtensionRepository extends Repository
 {
     public function newModel()
@@ -29,7 +30,7 @@ class ExtensionRepository extends Repository
             return $items->paginate($this->count);
         }
 
-        return $items->get();;
+        return $items->get();
     }
 
     public function findKeyInType($key, $type)

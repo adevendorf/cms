@@ -5,18 +5,12 @@ use Cms\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 
-
-/**
- * Class UserController
- * @package Cms\Http\Controllers\Cms\Api
- */
 class UserController extends ApiController
 {
 
     /**
      * UserController constructor.
      * @param UserRepository $repo
-     * @param ImageManager $imageManager
      */
     public function __construct(UserRepository $repo)
     {

@@ -11,7 +11,9 @@ class ContentFeed extends OrmModel implements Renderable
 
     public function render($options = [])
     {
-        if (!$content->resource_id) return '';
+        if (!$content->resource_id) {
+            return '';
+        }
 
         $form = $this->repo->findById($content->resource_id);
 
@@ -19,7 +21,7 @@ class ContentFeed extends OrmModel implements Renderable
         $contentRenderer = new ContentRender();
         $fields = [];
 
-        foreach($form->blocks[$step]->content as $content) {
+        foreach ($form->blocks[$step]->content as $content) {
             if (isset($content->field)) {
                 $fields[] = $formFieldRender->render($content->field);
             } else {

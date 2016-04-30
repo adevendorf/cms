@@ -5,10 +5,6 @@ use App\Http\Controllers\Controller;
 use Faker\Factory;
 use DB;
 
-/**
- * Class CmsController
- * @package Cms\Http\Controllers
- */
 class CmsController extends Controller
 {
     

@@ -4,10 +4,6 @@ namespace Cms\Http\Controllers\Cms\Base;
 use Cms\Http\Controllers\Cms\Base\CmsController;
 use Illuminate\Http\Request;
 
-/**
- * Class ApiController
- * @package Cms\Http\Controllers\Cms\Base
- */
 class ApiController extends CmsController
 {
     /**
@@ -21,7 +17,8 @@ class ApiController extends CmsController
      * @param Request $request
      * @return mixed
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         return $this->repo->paginate($request);
     }
 
@@ -31,7 +28,8 @@ class ApiController extends CmsController
      * @param $id
      * @return mixed
      */
-    public function show(Request $request, $id) {
+    public function show(Request $request, $id)
+    {
         return $this->repo->findById($id);
     }
 
@@ -41,14 +39,15 @@ class ApiController extends CmsController
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request, $id) {
+    public function destroy(Request $request, $id)
+    {
         $this->repo->destroy($id);
         return $this->returnSuccess();
     }
 
     /**
      * Success Message
-     * 
+     *
      * @return array
      */
     public function returnSuccess()

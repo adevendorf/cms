@@ -9,16 +9,30 @@ use CmsRepository;
 class NewsFeedController extends ApiController
 {
 
+    /**
+     * NewsFeedController constructor.
+     * @param NewsFeedRepository $repo
+     */
     public function __construct(NewsFeedRepository $repo)
     {
         $this->repo = $repo;
     }
 
-    public function index(Request $request) {
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function index(Request $request)
+    {
         return CmsRepository::get('section')->paginate($request);
     }
 
-    public function store(Request $request) {
+    /**
+     * @param Request $request
+     * @return \Cms\Models\NewsFeed
+     */
+    public function store(Request $request)
+    {
         $newsFeed = $this->repo->newModel();
         $newsFeed->fill($request->all());
         $newsFeed->order = 0;
@@ -29,6 +43,11 @@ class NewsFeedController extends ApiController
         return $newsFeed;
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return array
+     */
     public function show(Request $request, $id)
     {
         return [
@@ -37,7 +56,13 @@ class NewsFeedController extends ApiController
             ];
     }
 
-    public function destroy(Request $request, $id) {
+    /**
+     * @param Request $request
+     * @param $id
+     * @return array
+     */
+    public function destroy(Request $request, $id)
+    {
         $item = $this->repo->findOrFail($id);
         $item->delete();
         return $this->returnSuccess();

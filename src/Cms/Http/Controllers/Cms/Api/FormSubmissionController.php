@@ -1,5 +1,4 @@
 <?php
-
 namespace Cms\Http\Controllers\Cms\Api;
 
 use Cms\Models\FormSubmission;
@@ -9,7 +8,6 @@ use Cms\Models\FormField;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Repository\FormSubmissionRepository;
 use Illuminate\Http\Request;
-
 
 class FormSubmissionController extends ApiController
 {

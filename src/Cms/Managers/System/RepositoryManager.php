@@ -1,10 +1,6 @@
 <?php
 namespace Cms\Managers\System;
 
-/**
- * Class RepositoryManager
- * @package Cms\Managers
- */
 class RepositoryManager
 {
     /**
@@ -17,7 +13,7 @@ class RepositoryManager
         try {
             $repositoryName = self::getNamespace($name);
             return new $repositoryName;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
     }

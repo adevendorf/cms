@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Repository\CategoryRepository;
 
-/**
- * Class CategoryController
- * @package Cms\Http\Controllers\Cms\Api
- */
 class CategoryController extends ApiController
 {
     /**

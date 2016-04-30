@@ -1,5 +1,4 @@
 <?php
-
 namespace Cms\Http\Controllers\Cms\Api;
 
 use Illuminate\Http\Request;
@@ -7,11 +6,6 @@ use Cms\Models\NewsFeed;
 use Cms\Repository\NewsFeedRepository;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 
-
-/**
- * Class NewsItemController
- * @package Cms\Http\Controllers\Cms\Api
- */
 class NewsItemController extends ApiController
 {
 
@@ -36,12 +30,11 @@ class NewsItemController extends ApiController
         $item = $this->repo->findById($id);
 
         if ($request->input('field') && $request->input('data')) {
-
             $field = $request->input('field');
             $item->$field = $request->input('data');
             $item->save();
-            return response()->json(null, 200);
 
+            return response()->json(null, 200);
         } else {
             $item->fill($request->all());
 
@@ -69,7 +62,7 @@ class NewsItemController extends ApiController
     public function reorder(Request $request)
     {
         $json = $request->input('items');
-        foreach($json as $item) {
+        foreach ($json as $item) {
             NewsFeed::where('id', intval($item['id']))->update(['order' => intval($item['order'])]);
         }
 

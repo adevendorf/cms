@@ -5,10 +5,6 @@ use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Api\BlockController;
 use Cms\Repository\BlockRepository;
 
-/**
- * Class GalleryController
- * @package Cms\Http\Controllers
- */
 class GalleryController extends BlockController
 {
     /**

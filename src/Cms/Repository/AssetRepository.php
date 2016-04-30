@@ -6,10 +6,6 @@ use Cms\Models\Asset;
 use Config;
 use Auth;
 
-/**
- * Class AssetRepository
- * @package Cms\Repository
- */
 class AssetRepository extends Repository
 {
     /**

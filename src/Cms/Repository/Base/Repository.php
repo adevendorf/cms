@@ -29,10 +29,12 @@ class Repository
 
     public function limitToFields($collection, $fields = null)
     {
-        if (!$fields) return $collection;
+        if (!$fields) {
+            return $collection;
+        }
 
-        foreach($collection as $item) {
-            $item->setFields(explode(',',$fields));
+        foreach ($collection as $item) {
+            $item->setFields(explode(',', $fields));
         }
 
         return $collection;
@@ -79,7 +81,7 @@ class Repository
 
     public function getCache($key)
     {
-        return Cache::get($key, function() {
+        return Cache::get($key, function () {
             return false;
         });
     }

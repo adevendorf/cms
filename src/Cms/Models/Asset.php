@@ -76,7 +76,8 @@ class Asset extends OrmModel  {
         return $public->get($path);
     }
 
-    public function crop($img, $cX, $cY, $cW, $cH) {
+    public function crop($img, $cX, $cY, $cW, $cH)
+    {
 
         $imageWidth = $img->width();
         $imageHeight = $img->height();

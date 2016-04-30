@@ -21,11 +21,13 @@ class ContentFeed extends OrmModel implements Renderable
     {
         $data = json_decode($this->data);
 
-        if (!$data) return '';
+        if (!$data) {
+            return '';
+        }
 
         $sectionId = $data->id;
 
-        $feed = Cache::get('feed:'.$sectionId, function() use($sectionId) {
+        $feed = Cache::get('feed:'.$sectionId, function () use ($sectionId) {
             $value = NewsFeed::where('section_id', $sectionId)
                 ->where('active', 1)
                 ->orderBy('order', 'ASC')
@@ -44,16 +46,17 @@ class ContentFeed extends OrmModel implements Renderable
         });
 
 
-        if (!$feed) return '';
+        if (!$feed) {
+            return '';
+        }
 
-        $feed = $feed->reject(function($item) {
+        $feed = $feed->reject(function ($item) {
             return $item->page->status != 'published';
         });
 
         $contents = [];
 
-        foreach($feed as $item) {
-
+        foreach ($feed as $item) {
             $contents[] = [
                 'title' => $item->custom_headline ? $item->headline : $item->page->title,
                 'synopsis' => $item->custom_synopsis ? $item->synopsis : $item->page->synopsis,

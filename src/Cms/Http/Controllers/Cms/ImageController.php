@@ -18,13 +18,8 @@ use Cms\Models\Asset;
 use Cms\Models\Crop;
 use Cms\Models\CropSize;
 use CmsRepository;
-
 use App\Events\ImageWasUpdated;
 
-/**
- * Class ImageController
- * @package Cms\Core\Image
- */
 class ImageController extends ApiController
 {
     protected $repo;
@@ -48,7 +43,7 @@ class ImageController extends ApiController
     {
 
         $image = $this->repo->findById($id);
-        foreach($image->crops as $crop) {
+        foreach ($image->crops as $crop) {
             $crop->delete();
         }
         $image->delete();
@@ -92,23 +87,41 @@ class ImageController extends ApiController
     public function showImageById(Request $request, $id)
     {
         $image = $this->repo->findById($id);
-        $crop = $image->crops->filter(function($item) {
+        $crop = $image->crops->filter(function ($item) {
             return $item->name == 'default';
         })->first();
 
-        return $image->asset->createCropPreview('small', $crop->crop_x, $crop->crop_y, $crop->crop_width, $crop->crop_height);
+        return $image->asset->createCropPreview(
+            'small',
+            $crop->crop_x,
+            $crop->crop_y,
+            $crop->crop_width,
+            $crop->crop_height
+        );
     }
 
     public function showImagePreview(Request $request, $id)
     {
         $asset = CmsRepository::get('asset')->findById($id);
-        return $asset->createCropPreview('small', $request->input('crop_x'), $request->input('crop_y'), $request->input('crop_width'), $request->input('crop_height'));
+        return $asset->createCropPreview(
+            'small',
+            $request->input('crop_x'),
+            $request->input('crop_y'),
+            $request->input('crop_width'),
+            $request->input('crop_height')
+        );
     }
 
     public function showImagePreviewLarge(Request $request, $id)
     {
         $asset = CmsRepository::get('asset')->findById($id);
-        return $asset->createCropPreview('large', $request->input('crop_x'), $request->input('crop_y'), $request->input('crop_width'), $request->input('crop_height'));
+        return $asset->createCropPreview(
+            'large',
+            $request->input('crop_x'),
+            $request->input('crop_y'),
+            $request->input('crop_width'),
+            $request->input('crop_height')
+        );
     }
 
 
@@ -125,14 +138,14 @@ class ImageController extends ApiController
 
     public function renderPublicCropExtended(Request $request, $siteFolder, $year, $month, $day, $dir1, $id, $version, $filename)
     {
-        return $this->render($siteFolder, $year, $month, $day, $dir1, $id,$version, $filename);
+        return $this->render($siteFolder, $year, $month, $day, $dir1, $id, $version, $filename);
     }
 
     public function render($siteFolder, $year, $month, $day, $dir1, $id, $version, $filename)
     {
         $image = Image::with('crops', 'asset')->find($id);
 
-        $crop = $image->crops->filter(function($item) use ($version) {
+        $crop = $image->crops->filter(function ($item) use ($version) {
             return $item->name == $version;
         });
 
@@ -140,7 +153,11 @@ class ImageController extends ApiController
             $crop = $crop->first();
         } else {
             $managedCrop = CropSize::where('name', $version)->first();
-            if (!$managedCrop) abort(404, 'Image Not Found');
+
+            if (!$managedCrop) {
+                abort(404, 'Image Not Found');
+            }
+
             $crop = Crop::create([
                 'name' => $managedCrop->name,
                 'image_id' => $image->id,
@@ -158,7 +175,10 @@ class ImageController extends ApiController
             $img = $this->resizeImage($img, $crop->max_dimension);
         }
 
-        $this->fileManager->saveFile('img/cropped/'.$siteFolder.'/'.$year.'/'.$month.'/'.$day.'/'.$dir1.'/'.$id.'/'.$version.'_'.$filename, $img->encode());
+        $this->fileManager->saveFile(
+            'img/cropped/'.$siteFolder.'/'.$year.'/'.$month.'/'.$day.'/'.$dir1.'/'.$id.'/'.$version.'_'.$filename,
+            $img->encode()
+        );
 
         return $img->response();
     }
@@ -181,9 +201,10 @@ class ImageController extends ApiController
         return $img;
     }
 
-    public function crop($img, $image, $version = 'default') {
+    public function crop($img, $image, $version = 'default')
+    {
 
-        $values = $image->crops->filter(function($item) use($version) {
+        $values = $image->crops->filter(function ($item) use ($version) {
             return $item->name == $version;
         })->first();
 
@@ -203,7 +224,13 @@ class ImageController extends ApiController
             $width = $imageWidth;
             $height = $autoHeight;
 
-            $img->fit(intval($width), intval($height), function($constraint) {}, $image->asset->crop_preference);
+            $img->fit(
+                intval($width),
+                intval($height),
+                function ($constraint) {
+                },
+                $image->asset->crop_preference
+            );
 
         } else {
             //use user defined crop values

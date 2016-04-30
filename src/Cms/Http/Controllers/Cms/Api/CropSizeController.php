@@ -1,7 +1,6 @@
 <?php
 namespace Cms\Http\Controllers\Cms\Api;
 
-use Cms\Models\CropSize;
 use Cms\Repository\CropSizeRepository;
 use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;

@@ -47,7 +47,7 @@ class ImageRepository extends Repository
         return Image::with(
             'asset',
             'crops'
-            )
+        )
             ->where($column, $value)
             ->firstOrFail();
     }

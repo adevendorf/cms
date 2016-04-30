@@ -34,11 +34,11 @@ class NewsFeedRepository extends Repository
     public function findBy($column, $value)
     {
         return NewsFeed::with(
-                'page',
-                'image',
-                'image.asset',
-                'image.crops'
-            )
+            'page',
+            'image',
+            'image.asset',
+            'image.crops'
+        )
             ->where($column, $value)
             ->firstOrFail();
     }

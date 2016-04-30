@@ -8,9 +8,20 @@ use Auth;
 
 class ProductController extends ApiController
 {
+    /**
+     * @var Request
+     */
     protected $request;
+    
+    /**
+     * @var Product
+     */
     protected $model;
 
+    /**
+     * ProductController constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         parent::__construct($request);
@@ -19,12 +30,18 @@ class ProductController extends ApiController
         $this->model = new Product;
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $items = $this->model->where('site_id', $this->site->id)->paginate(50);
         return $items;
     }
 
+    /**
+     * @return Product
+     */
     public function store()
     {
         $this->validate($this->request, [
@@ -39,12 +56,20 @@ class ProductController extends ApiController
         return $item;
     }
 
+    /**
+     * @param Request $id
+     * @return mixed
+     */
     public function show($id)
     {
         $item = $this->model->where('site_id', $this->site->id)->findOrFail($id);
         return $item;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function update($id)
     {
         $this->validate($this->request, [
@@ -56,6 +81,10 @@ class ProductController extends ApiController
         return $item;
     }
 
+    /**
+     * @param Request $id
+     * @return mixed
+     */
     public function destroy($id)
     {
         $item = $this->model->where('site_id', $this->site->id)->findOrFail($id);

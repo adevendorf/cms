@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use HipsterJazzbo\Landlord\BelongsToTenant;
 
-class FormSubmission extends Model  {
+class FormSubmission extends Model
+{
     use BelongsToTenant;
     use SoftDeletes;
 
@@ -21,7 +22,8 @@ class FormSubmission extends Model  {
         return $this->hasMany('Cms\Models\FormData', 'form_submission_id', 'id');
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function ($item) {
@@ -30,7 +32,7 @@ class FormSubmission extends Model  {
         static::updated(function ($item) {
             $item->reindex();
         });
-        static::deleted(function($item) {
+        static::deleted(function ($item) {
            $item->removeFromIndex();
         });
     }

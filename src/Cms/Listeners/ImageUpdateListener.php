@@ -11,15 +11,6 @@ class ImageUpdateListener implements ShouldQueue
 {
 
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      *
      * @param  ImageWasUpdated  $event

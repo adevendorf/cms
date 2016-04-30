@@ -7,11 +7,6 @@ use Cms\Models\Block;
 use Config;
 use DB;
 
-
-/**
- * Class BlockRepository
- * @package Cms\Repository
- */
 class BlockRepository extends Repository
 {
     /**
@@ -51,6 +46,8 @@ class BlockRepository extends Repository
     }
 
     /**
+     * Paginate the record
+     *
      * @param $request
      * @return Collection
      */
@@ -67,16 +64,19 @@ class BlockRepository extends Repository
     }
 
     /**
-     * @param $id
+     * Find Block with image/asset/crops
+     *
+     * @param $column
+     * @param $value
+     * @param bool $full
      * @return Block
-     * @throws \Exception
      */
     public function findBy($column, $value, $full = false)
     {
         $item = Block::with(
-                'image',
-                'image.asset',
-                'image.crops'
+            'image',
+            'image.asset',
+            'image.crops'
         );
 
         if ($full) {
@@ -94,6 +94,8 @@ class BlockRepository extends Repository
     }
 
     /**
+     * Destroy the record
+     *
      * @param $id
      * @return bool
      * @throws \Exception

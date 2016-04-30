@@ -4,10 +4,6 @@ namespace Cms\Http\Controllers\Cms\Api;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Managers\TemplateManager;
 
-/**
- * Class TemplateController
- * @package Cms\Http\Controllers\Cms\Api
- */
 class TemplateController extends ApiController
 {
     /**

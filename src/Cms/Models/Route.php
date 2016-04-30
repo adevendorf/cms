@@ -5,10 +5,14 @@ use Cms\Models\Eloquent\Route as OrmModel;
 
 class Route extends OrmModel
 {
-    public function slugify() {
+    /**
+     * @return $this
+     */
+    public function slugify()
+    {
         $path = explode('/', $this->url);
 
-        $finalPath = array_map(function($segment) {
+        $finalPath = array_map(function ($segment) {
             return str_slug($segment);
         }, $path);
 
@@ -23,16 +27,25 @@ class Route extends OrmModel
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setPrimaryDir()
     {
         $path = explode('/', $this->url);
 
-        if (count($path) == 0) $path = [null];
+        if (count($path) == 0) {
+            $path = [null];
+        }
 
         $this->primary_dir = head($path);
         return $this;
     }
 
+    /**
+     * @param array $options
+     * @return void
+     */
     public function save(array $options = [])
     {
         $this->slugify();

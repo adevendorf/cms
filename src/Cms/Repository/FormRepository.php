@@ -26,17 +26,17 @@ class FormRepository extends Repository
     public function findBy($column, $value)
     {
         return Form::with(
-                'blocks',
-                'blocks.content',
-                'blocks.content.field',
-                'blocks.content.resource',
-                'blocks.content.image',
-                'blocks.content.image.asset',
-                'blocks.content.image.crops',
-                'redirectPage'
-            )
-            ->where($column, $value)
-            ->firstOrFail();
+            'blocks',
+            'blocks.content',
+            'blocks.content.field',
+            'blocks.content.resource',
+            'blocks.content.image',
+            'blocks.content.image.asset',
+            'blocks.content.image.crops',
+            'redirectPage'
+        )
+        ->where($column, $value)
+        ->firstOrFail();
     }
 
     public function destroy($id)

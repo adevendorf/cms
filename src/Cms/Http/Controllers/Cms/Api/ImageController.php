@@ -17,18 +17,24 @@ use Cms\Models\Image;
 use Cms\Models\Asset;
 use Cms\Models\Crop;
 use Cms\Models\CropSize;
-
 use App\Events\ImageWasUpdated;
 
-/**
- * Class ImageController
- * @package Cms\Core\Image
- */
 class ImageController extends ApiController
 {
+    /**
+     * @var ImageRepository
+     */
     protected $repo;
+    /**
+     * @var FileManager
+     */
     protected $fileManager;
 
+    /**
+     * ImageController constructor.
+     * @param ImageRepository $repo
+     * @param FileManager $fileManager
+     */
     public function __construct(ImageRepository $repo, FileManager $fileManager)
     {
         $this->generator = new ImageGenerator();
@@ -36,6 +42,16 @@ class ImageController extends ApiController
         $this->fileManager = $fileManager;
     }
 
+    /**
+     * @param Request $request
+     * @param $year
+     * @param $month
+     * @param $day
+     * @param $id
+     * @param $version
+     * @param $filename
+     * @return mixed
+     */
     public function renderPublic(Request $request, $year, $month, $day, $id, $version, $filename)
     {
 
@@ -44,11 +60,16 @@ class ImageController extends ApiController
     }
 
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function destroy(Request $request, $id)
     {
 
         $image = $this->repo->findById($id);
-        foreach($image->crops as $crop) {
+        foreach ($image->crops as $crop) {
             $crop->delete();
         }
         $image->delete();
@@ -56,6 +77,11 @@ class ImageController extends ApiController
         return response(['status' => 200]);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function update(Request $request, $id)
     {
         $image = Image::find($id);
@@ -68,6 +94,10 @@ class ImageController extends ApiController
         return $image;
     }
 
+    /**
+     * @param Request $request
+     * @return Image
+     */
     public function store(Request $request)
     {
         $image = new Image;

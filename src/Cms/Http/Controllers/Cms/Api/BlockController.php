@@ -1,5 +1,4 @@
 <?php
-
 namespace Cms\Http\Controllers\Cms\Api;
 
 use Cms\Models\Block;
@@ -8,12 +7,6 @@ use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use CmsImage;
 
-
-
-/**
- * Class BlockController
- * @package Cms\Http\Controllers
- */
 class BlockController extends ApiController
 {
     /**
@@ -36,7 +29,8 @@ class BlockController extends ApiController
      * @param Request $request
      * @return Block
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $block = $this->repo->newModel();
 
         $block->fill($request->all());
@@ -55,7 +49,8 @@ class BlockController extends ApiController
      * @param $id
      * @return mixed
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $block = $this->repo->findById($id);
 
         $block->fill($request->all());

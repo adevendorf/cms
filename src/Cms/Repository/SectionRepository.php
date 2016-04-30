@@ -6,10 +6,6 @@ use Cms\Models\Section;
 use Config;
 use Auth;
 
-/**
- * Class SectionRepository
- * @package Cms\Repository
- */
 class SectionRepository extends Repository
 {
     /**

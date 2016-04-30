@@ -11,15 +11,23 @@ use Config;
 class FormFieldController extends ApiController
 {
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $items = FormField::paginate(50);
         return $items;
     }
 
+    /**
+     * @param Request $request
+     * @return FormField
+     */
     public function store(Request $request)
     {
-        $item = New FormField;
+        $item = new FormField;
         $item->fill($request->all());
         $item->created_by = $request->user()->id;
         $item->save();
@@ -32,12 +40,22 @@ class FormFieldController extends ApiController
         return $item;
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function show(Request $request, $id)
     {
         $item = FormField::findOrFail($id);
         return $item;
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function update(Request $request, $id)
     {
 //        $this->validate($request, [
@@ -52,6 +70,11 @@ class FormFieldController extends ApiController
         return $item;
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function destroy(Request $request, $id)
     {
         $item = FormField::findOrFail($id);

@@ -24,16 +24,19 @@ class FormField extends Model  {
     ];
     protected $hidden = ['updated_at', 'created_at'];
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function ($item) {
             $item->addToIndex();
         });
+        
         static::updated(function ($item) {
             $item->reindex();
         });
-        static::deleted(function($item) {
+
+        static::deleted(function ($item) {
             $item->removeFromIndex();
         });
     }

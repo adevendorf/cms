@@ -6,16 +6,12 @@ use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Managers\FileManager;
 
-
-/**
- * Class AssetController
- * @package Cms\Http\Controllers\Cms\Api
- */
-class AssetController extends ApiController
+class Controller extends ApiController
 {
 
     /**
      * AssetController constructor.
+     *
      * @param AssetRepository $repo
      * @param FileManager $fileManager
      */
@@ -27,6 +23,8 @@ class AssetController extends ApiController
 
 
     /**
+     * Store the Asset record
+     *
      * @param Request $request
      * @return \Cms\Models\Asset
      */
@@ -60,6 +58,8 @@ class AssetController extends ApiController
 
 
     /**
+     * Update the record
+     *
      * @param Request $request
      * @param $id
      * @return mixed
@@ -77,6 +77,8 @@ class AssetController extends ApiController
     }
 
     /**
+     * Destroy the asset, and delete the file
+     *
      * @param Request $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -87,7 +89,7 @@ class AssetController extends ApiController
 
         try {
             $local->delete($asset->original_filename);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new $e->getMessage();
         }
 

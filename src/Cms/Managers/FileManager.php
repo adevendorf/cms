@@ -57,7 +57,7 @@ class FileManager
     {
         $file = $request->file('file');
 
-        if (!$file->isValid())  {
+        if (!$file->isValid()) {
             return false;
         }
 
@@ -71,7 +71,6 @@ class FileManager
 
 
         if (in_array($extension, $this->extensions)) {
-
             $this->disk->put('asset/'.$completePath, File::get($file));
 
             $img = ImageTool::make($this->disk->get('asset/'.$completePath));

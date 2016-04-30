@@ -6,10 +6,6 @@ use Cms\Models\Event;
 use Config;
 use Auth;
 
-/**
- * Class EventRepository
- * @package Cms\Repository
- */
 class EventRepository extends Repository
 {
     /**

@@ -24,12 +24,12 @@ class ContentRepository extends Repository
     public function findBy($column, $value)
     {
         return Content::with(
-                'image',
-                'image.crops',
-                'image.asset'
-            )
-            ->where($column, $value)
-            ->firstOrFail();
+            'image',
+            'image.crops',
+            'image.asset'
+        )
+        ->where($column, $value)
+        ->firstOrFail();
     }
 
     public function destroy($id)
@@ -52,8 +52,10 @@ class ContentRepository extends Repository
     {
         $items = Content::with('image', 'image.crops', 'image.asset');
 
-        foreach($request->all() as $key => $val) {
-            if ($key != 'count') $items = $items->where($key, $val);
+        foreach ($request->all() as $key => $val) {
+            if ($key != 'count') {
+                $items = $items->where($key, $val);
+            }
         }
 
         if ($request->input('count')) {

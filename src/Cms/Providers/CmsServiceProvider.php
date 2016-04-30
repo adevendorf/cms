@@ -3,10 +3,6 @@ namespace Cms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class CmsServiceProvider
- * @package Cms\Providers
- */
 class CmsServiceProvider extends ServiceProvider
 {
     public function boot()

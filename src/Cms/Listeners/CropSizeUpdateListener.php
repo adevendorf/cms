@@ -27,7 +27,7 @@ class CropSizeUpdateListener
 
         $items = Image::with('asset')->get();
 
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $path = $item->asset->path;
             $imagePath = strtolower('/img/cropped/'.$path.$item->id.'/'.$cropSizeName.'_'.$item->asset->original_filename);
             if ($disk->exists($imagePath)) {

@@ -9,10 +9,6 @@ use Cms\Repository\PageRepository;
 use CmsRepository;
 use CmsImage;
 
-/**
- * Class PageController
- * @package Cms\Http\Controllers\Cms\Api
- */
 class PageController extends ApiController
 {
     /**

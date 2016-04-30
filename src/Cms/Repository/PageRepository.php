@@ -45,10 +45,7 @@ class PageRepository extends Repository
 
         $items = $request->input('order_by') == 'created_at' ? $items->orderBy('created_at', 'ASC') : $items;
 
-        $items = $items->with(
-            'route'
-//            'section'
-        );
+        $items = $items->with('route');
 
         if ($request->input('count')) {
             $this->count = $request->input('count') ? $request->input('count') : $this->count;
@@ -61,14 +58,10 @@ class PageRepository extends Repository
     public function findBy($column, $value)
     {
         $page = Page::with(
-//                'blocks',
-//                'route',
-                'image',
-                'image.crops',
-                'image.asset'
-//                'author',
-//                'section'
-            )
+            'image',
+            'image.crops',
+            'image.asset'
+        )
             ->where($column, $value)
             ->firstOrFail();
 

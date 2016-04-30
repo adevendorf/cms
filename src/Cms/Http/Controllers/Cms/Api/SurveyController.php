@@ -1,7 +1,6 @@
 <?php
 namespace Cms\Http\Controllers\Cms\Api;
 
-use Cms\Render\PageRender;
 use Illuminate\Http\Request;
 use Cms\Http\Controllers\Cms\Base\ApiController;
 use Auth;

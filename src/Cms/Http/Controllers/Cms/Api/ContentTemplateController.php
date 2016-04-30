@@ -7,7 +7,8 @@ use Cms\Models\Extension;
 
 class ContentTemplateController extends ApiController
 {
-    public function showByKey(Request $request, $key) {
+    public function showByKey(Request $request, $key)
+    {
         $items = Extension::where('type', 'template')->where('key', $key)->get();
         return $items;
     }

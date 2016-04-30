@@ -6,10 +6,6 @@ use Cms\Models\Category;
 use Config;
 use Auth;
 
-/**
- * Class CategoryRepository
- * @package Cms\Repository
- */
 class CategoryRepository extends Repository
 {
     /**
@@ -48,7 +44,7 @@ class CategoryRepository extends Repository
             return $items->paginate($this->count);
         }
 
-        return $items->get();;
+        return $items->get();
     }
 
     /**
@@ -63,7 +59,9 @@ class CategoryRepository extends Repository
         if ($this->shouldCache()) {
             $cacheValue = $this->getCache($cacheyKey);
 
-            if ($cacheValue) return $cacheValue;
+            if ($cacheValue) {
+                return $cacheValue;
+            }
         }
 
         $category = Category::where($column, $value)
@@ -83,16 +81,18 @@ class CategoryRepository extends Repository
         if ($this->shouldCache()) {
             $cacheValue = $this->getCache($cacheyKey);
 
-            if ($cacheValue) return $cacheValue;
+            if ($cacheValue) {
+                return $cacheValue;
+            }
         }
 
         $categories = Category::orderBy('name', 'asc')
             ->where('group', $group)
             ->paginate($count);
 
-         if ($this->shouldCache()) {
-             $this->putCache($cacheyKey, $categories, ['category']);
-         }
+        if ($this->shouldCache()) {
+            $this->putCache($cacheyKey, $categories, ['category']);
+        }
 
         return $categories;
     }

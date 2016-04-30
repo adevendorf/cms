@@ -4,10 +4,6 @@ namespace Cms\Repository;
 use Cms\Repository\Base\Repository;
 use Cms\Models\Route;
 
-/**
- * Class RouteRepository
- * @package Cms\Repository
- */
 class RouteRepository extends Repository
 {
     /**

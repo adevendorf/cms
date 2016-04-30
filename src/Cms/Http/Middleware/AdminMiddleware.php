@@ -4,10 +4,6 @@ namespace Cms\Http\Middleware;
 use Closure;
 use Auth;
 
-/**
- * Class AdminMiddleware
- * @package Cms\Http\Middleware
- */
 class AdminMiddleware
 {
 

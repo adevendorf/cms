@@ -25,7 +25,7 @@ class ContentLatestPosts extends OrmModel implements Renderable
             $count = intval($json->count);
         }
 
-        $latest = Cache::get('content_latest_posts:'.$count, function() use($count) {
+        $latest = Cache::get('content_latest_posts:'.$count, function () use ($count) {
             $value = CmsRepository::get('blog')->findLatestBlogPosts($count);
             Cache::put('content_latest_posts:'.$count, $value, self::CACHE_EXPIRE);
             return $value;

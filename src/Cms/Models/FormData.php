@@ -18,19 +18,22 @@ class FormData extends Model  {
 
     public function question()
     {
-      return $this->hasOne('Cms\Models\FormField', 'id', 'question_id');
+        return $this->hasOne('Cms\Models\FormField', 'id', 'question_id');
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function ($item) {
             $item->addToIndex();
         });
+        
         static::updated(function ($item) {
             $item->reindex();
         });
-        static::deleted(function($item) {
+
+        static::deleted(function ($item) {
             $item->removeFromIndex();
         });
     }

@@ -9,10 +9,6 @@ use Auth;
 use Cms\Models\Site;
 use Illuminate\Http\Request;
 
-/**
- * Class AdminMiddleware
- * @package Cms\Http\Middleware
- */
 class TenantMiddleware
 {
 
@@ -21,7 +17,8 @@ class TenantMiddleware
     /**
      * CmsMiddleware constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
@@ -48,7 +45,7 @@ class TenantMiddleware
 //            }
 //        }
 
-        $site = Cache::get('site:'.str_slug($request->getHost()), function() use($request) {
+        $site = Cache::get('site:'.str_slug($request->getHost()), function () use ($request) {
             $value = Site::whereDomain($request->getHost())->first();
             Cache::put('site:'.str_slug($request->getHost()), $value, self::CACHE_EXPIRE);
             return $value;

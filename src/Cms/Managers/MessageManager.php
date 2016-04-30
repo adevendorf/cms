@@ -5,8 +5,6 @@ use Mail;
 
 class MessageManager
 {
-
-
     public static function send($data)
     {
         Mail::send('themes.' . config('cms.theme') . '.emails.form', $data, function ($message) use ($data) {

@@ -27,17 +27,17 @@ class SubmitController extends ApiController
     public function submit(Request $request, $id)
     {
         $form = Form::with(
-                'blocks',
-                'blocks.content',
-                'blocks.content.field',
-                'blocks.content.resource',
-                'blocks.content.image',
-                'blocks.content.image.asset',
-                'blocks.content.image.crops',
-                'redirectPage'
-            )
-            ->where('submission_uuid', '=', $id)
-            ->first();
+            'blocks',
+            'blocks.content',
+            'blocks.content.field',
+            'blocks.content.resource',
+            'blocks.content.image',
+            'blocks.content.image.asset',
+            'blocks.content.image.crops',
+            'redirectPage'
+        )
+        ->where('submission_uuid', '=', $id)
+        ->first();
 
         if (!$form) {
             abort(404, 'Page Not Found');
@@ -52,17 +52,17 @@ class SubmitController extends ApiController
 
 
         if ($form->save_data && $form->save_to == 'database') {
-
             $submission = new FormSubmission();
 
-            if (Auth::user()) $submission->user_id = Auth::user()->id;
+            if (Auth::user()) {
+                $submission->user_id = Auth::user()->id;
+            }
 
             $submission->user_ip = $request->getClientIp();
             $submission->form_id = $form->id;
             $submission->save();
 
             foreach ($request->input('form') as $key => $value) {
-
 //                $questionId = intval(explode('_', $key)[1]);
                 $questionId = intval($key);
 
@@ -79,10 +79,18 @@ class SubmitController extends ApiController
                     $subValue = Crypt::encrypt($subValue);
                 }
 
+                if ($answerType == 'string') {
+                    $data->answer_string = $subValue;
+                }
 
-                if ($answerType == 'string') $data->answer_string = $subValue;
-                if ($answerType == 'int') $data->answer_int = $subValue;
-                if ($answerType == 'text') $data->answer_text = $subValue;
+                if ($answerType == 'int') {
+                    $data->answer_int = $subValue;
+                }
+
+                if ($answerType == 'text') {
+                    $data->answer_text = $subValue;
+                }
+
                 $data->save();
             }
         }
@@ -110,7 +118,9 @@ class SubmitController extends ApiController
         //TODO CACHE THIS
         $question = FormField::where('id', $id)->first();
 
-        if ($question->question_type == 'multiline') return 'text';
+        if ($question->question_type == 'multiline') {
+            return 'text';
+        }
 
         return 'string';
 

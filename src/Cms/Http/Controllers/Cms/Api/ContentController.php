@@ -1,5 +1,4 @@
 <?php
-
 namespace Cms\Http\Controllers\Cms\Api;
 
 use Illuminate\Http\Request;
@@ -43,7 +42,7 @@ class ContentController extends ApiController
     {
         $json = $request->input('items');
 
-        foreach($json as $content) {
+        foreach ($json as $content) {
             $this->repo->updateOrder(intval($content['id']), intval($content['order']));
         }
         return $this->returnSuccess();

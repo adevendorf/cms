@@ -7,12 +7,7 @@ use Cms\Http\Controllers\Cms\Base\ApiController;
 use Cms\Managers\ImageManager;
 use Cms\Repository\SectionRepository;
 use Auth;
-use Illuminate\Support\Collection;
 
-/**
- * Class SectionController
- * @package Cms\Http\Controllers
- */
 class SectionController extends ApiController
 {
     /**

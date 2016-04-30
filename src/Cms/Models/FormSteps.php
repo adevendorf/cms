@@ -5,7 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 
-class FormBlocks extends Model  {
+class FormBlocks extends Model
+{
     use BelongsToTenant;
     use SoftDeletes;
 
@@ -19,7 +20,8 @@ class FormBlocks extends Model  {
         return $this->hasMany('\Cms\Models\FormContent', 'form_steps_id', 'id')->orderBy('order', 'asc');
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function ($item) {
@@ -28,7 +30,7 @@ class FormBlocks extends Model  {
         static::updated(function ($item) {
             $item->reindex();
         });
-        static::deleted(function($item) {
+        static::deleted(function ($item) {
             $item->removeFromIndex();
         });
     }
